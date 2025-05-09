@@ -1,4 +1,16 @@
-export const dynamic = 'force-dynamic'; // dev ではキャッシュ無効
-export default function Page() {
-  return <h1 className="text-2xl font-bold">Dashboard – 準備中</h1>;
+import { auth } from '@clerk/nextjs/server';
+import { supabase } from '@/lib/supabaseClient';
+import GenreSelector from './selector';
+
+export default async function OnboardingPage() {
+  const { userId } = await auth();
+  if (!userId) return null;
+
+  const { data: genres } = await supabase.from('genres')
+                                         .select('*')
+                                         .order('category');
+
+  return (
+    <GenreSelector userId={userId} genres={genres || []} />
+  );
 }
