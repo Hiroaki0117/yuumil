@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model favorites {
+  user_id    String   @db.Uuid
+  video_id   String   @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  videos     videos   @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, video_id])
+}
+
+model genres {
+  id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                    String
+  slug                    String                    @unique
+  description             String?
+  created_at              DateTime                  @default(now()) @db.Timestamptz(6)
+  category                String?
+  pre_calculated_rankings pre_calculated_rankings[]
+  user_genres             user_genres[]
+  video_genres            video_genres[]
+}
+
+model keywords {
+  id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                    String
+  slug                    String                    @unique
+  created_at              DateTime                  @default(now()) @db.Timestamptz(6)
+  pre_calculated_rankings pre_calculated_rankings[]
+  user_keywords           user_keywords[]
+  video_keywords          video_keywords[]
+}
+
+model pre_calculated_rankings {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  genre_id         String?          @db.Uuid
+  keyword_id       String?          @db.Uuid
+  period_type      period_type_enum
+  calculation_date DateTime         @db.Timestamptz(6)
+  video_id         String?          @db.Uuid
+  rank             Int
+  metrics          Json?
+  genres           genres?          @relation(fields: [genre_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  keywords         keywords?        @relation(fields: [keyword_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  videos           videos?          @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([genre_id, keyword_id, period_type, calculation_date, video_id])
+}
+
+model user_genres {
+  user_id    String   @db.Uuid
+  genre_id   String   @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  genres     genres   @relation(fields: [genre_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, genre_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_interactions {
+  id               String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id          String?               @db.Uuid
+  video_id         String?               @db.Uuid
+  interaction_type interaction_type_enum
+  watch_duration   Int?
+  watch_percentage Decimal?              @db.Decimal
+  created_at       DateTime              @default(now()) @db.Timestamptz(6)
+  users            users?                @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  videos           videos?               @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id, created_at(sort: Desc)], map: "idx_ui_user_created")
+}
+
+model user_keywords {
+  user_id    String   @db.Uuid
+  keyword_id String   @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  keywords   keywords @relation(fields: [keyword_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, keyword_id])
+}
+
+model users {
+  id                      String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_id                String                 @unique
+  username                String?
+  email                   String                 @unique
+  subscription_tier       subscription_tier_enum @default(free)
+  subscription_start_date DateTime?              @db.Timestamptz(6)
+  subscription_end_date   DateTime?              @db.Timestamptz(6)
+  created_at              DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime               @default(now()) @db.Timestamptz(6)
+  favorites               favorites[]
+  user_genres             user_genres[]
+  user_interactions       user_interactions[]
+  user_keywords           user_keywords[]
+}
+
+model video_details {
+  video_id    String   @id @db.Uuid
+  description String?
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+  videos      videos   @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model video_genres {
+  video_id String @db.Uuid
+  genre_id String @db.Uuid
+  genres   genres @relation(fields: [genre_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  videos   videos @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([video_id, genre_id])
+}
+
+model video_keywords {
+  video_id   String   @db.Uuid
+  keyword_id String   @db.Uuid
+  keywords   keywords @relation(fields: [keyword_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  videos     videos   @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([video_id, keyword_id])
+}
+
+model video_stats {
+  video_id    String           @db.Uuid
+  period_type period_type_enum
+  period_date DateTime         @db.Date
+  view_count  Int
+  like_count  Int?
+  created_at  DateTime         @default(now()) @db.Timestamptz(6)
+  videos      videos           @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([video_id, period_type, period_date])
+  @@index([period_type, period_date], map: "idx_vs_period")
+}
+
+model videos {
+  id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  youtube_id              String                    @unique(map: "idx_videos_youtube_id")
+  title                   String
+  thumbnail_url           String?
+  channel_id              String?
+  channel_title           String?
+  published_at            DateTime?                 @db.Timestamptz(6)
+  duration                Int?
+  video_type              video_type_enum           @default(standard)
+  created_at              DateTime                  @default(now()) @db.Timestamptz(6)
+  total_views             BigInt                    @default(0)
+  favorites               favorites[]
+  pre_calculated_rankings pre_calculated_rankings[]
+  user_interactions       user_interactions[]
+  video_details           video_details?
+  video_genres            video_genres[]
+  video_keywords          video_keywords[]
+  video_stats             video_stats[]
+}
+
+enum interaction_type_enum {
+  like
+  dislike
+  watch_start
+  watch_complete
+}
+
+enum period_type_enum {
+  daily
+  weekly
+  monthly
+  all_time
+}
+
+enum subscription_tier_enum {
+  free
+  pro
+}
+
+enum video_type_enum {
+  standard
+  short
+  live
+}
