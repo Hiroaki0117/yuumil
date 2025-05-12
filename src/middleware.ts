@@ -1,6 +1,7 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher, clerkClient } from '@clerk/nextjs/server';
 import { supabase } from './lib/supabaseClient';
 import { NextResponse } from 'next/server';
+import { ensureUserRecord } from './dal/users';
 
 const isProtectedRoute = createRouteMatcher([
   '/dashboard(.*)',
@@ -11,19 +12,41 @@ const isProtectedRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {
-    await auth.protect(); // auth()ではなくauth.protect()
+    await auth.protect();
   }
-  
-  var userId = (await auth()).userId;
-  if (userId) {
-    const {data} = await supabase.from("user_genres")
-                                  .select("uesr_id")
-                                  .eq('user_id', userId)
-                                  .limit(1)
-                                  .maybeSingle();
 
-    if (!data && !req.nextUrl.pathname.startsWith('/onboarding')) {
+  const { userId: clerkId, sessionClaims  } = await auth();
+  if (!clerkId) return null;
+  const client = await clerkClient()
+  const user   = await client.users.getUser(clerkId)
+  
+  let email = 
+    user?.primaryEmailAddress?.emailAddress ??
+    user?.emailAddresses?.[0]?.emailAddress ??
+    `${clerkId}@users.yumeal`;
+
+  const externalProvider = user?.externalAccounts?.[0]?.provider ?? null;
+  const externalId = user?.externalAccounts?.[0]?.externalId ?? null;
+
+  const userId = await ensureUserRecord({
+    clerkId,
+    email,
+    externalProvider,
+    externalId
+  });
+
+  if (userId) {
+    console.log("userId："+userId);
+    const { count, error } = await supabase
+      .from('user_preferences_view')
+      .select('user_id', { count: 'exact', head: true })
+      .eq('user_id', userId);
+    if (!count && !req.nextUrl.pathname.startsWith('/onboarding')) {
       return NextResponse.redirect(new URL('/onboarding', req.url));
+    }
+    if ((count ?? 0) > 0 &&
+        (req.nextUrl.pathname === '/' || req.nextUrl.pathname.startsWith('/onboarding'))) {
+      return NextResponse.redirect(new URL('/dashboard', req.url));
     }
   }
   return NextResponse.next();
@@ -31,6 +54,6 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   matcher: [
-    '/((?!_next|.*\\..*).*)',
+    '/((?!_next/static|_next/image|favicon.ico|api/auth|api/health).*)',
   ],
 };
