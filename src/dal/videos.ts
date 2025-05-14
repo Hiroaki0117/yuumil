@@ -1,24 +1,5 @@
 import { supabase } from "@/lib/supabaseClient";
-import { Database } from "../../database.types";
-
-
-
-type GenreRow   = Database['public']['Views']['videos_recent_genres']['Row'];
-type KeywordRow = Database['public']['Views']['videos_recent_keywords']['Row'];
-
-type UnifiedRow = (GenreRow | KeywordRow) & {
-    published_at: string;
-    id: string
-}
-
-type PerfType = "genre" | "keyword";
-
-interface ListParams {
-    prefType: PerfType;
-    prefId: number|string;
-    limit?: number;
-    cursor?: string|null;
-}
+import { GenreRow, KeywordRow, ListParams, PerfType, UnifiedRow } from "@/type";
 
 export async function listByPreference({ prefType, prefId, limit = 20, cursor}: ListParams) {
     const isGenre = prefType === "genre";
