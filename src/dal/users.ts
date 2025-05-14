@@ -1,10 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
-interface UserSyncPayload {
-  clerkId: string;
-  email: string;
-  externalProvider?: string | null;
-  externalId?: string | null;
-}
+import { UserSyncPayload } from '@/type';
 
 // Clerkユーザーをusersテーブルに同期するしUUIDを返す。
 export async function ensureUserRecord({
@@ -38,4 +33,8 @@ export async function getUser(id: string) {
         .eq('clerk_id', id)
         .maybeSingle();
     return data;
-}
+};
+
+export async function ListUserPreferences(userId : string) {
+
+};

@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Genre, GenreSelectorProps, SelectedItem } from '@/types/genre';
+import { Genre, GenreSelectorProps, SelectedItem } from '@/type';
 import { useRouter } from 'next/navigation';
 import { insertUserGenres, insertUserKeywords, upsertKeywords } from '@/dal/genre';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
