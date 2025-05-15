@@ -8,7 +8,7 @@ export function useVideoFeed(activePref: string) {
         if (prev && !prev.nextCursor) return null;  // ページが最後である
 
         const cursor = page === 0 ? null : prev.nextCursor;
-        return `api/videos?pref=${activePref}&limit=${PAGE_SIZE}${cursor ? `&cursor=${cursor}` : ''}`;
+        return `api/videos/news?pref=${activePref}&limit=${PAGE_SIZE}${cursor ? `&cursor=${cursor}` : ''}`;
     };
 
     const { data, size, setSize, isValidating} = useSWRInfinite(getKey, 

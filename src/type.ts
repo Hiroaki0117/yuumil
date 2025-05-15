@@ -3,8 +3,10 @@ import { Database } from "../database.types";
 export type GenreRow   = Database['public']['Views']['videos_recent_genres']['Row'];
 export type KeywordRow = Database['public']['Views']['videos_recent_keywords']['Row'];
 export type PrefDetailRow = Database['public']['Views']['user_preferences_detail_view']['Row'];
+export type RankRow = Database['public']['Tables']['pre_calculated_rankings']['Row'];
 
 export type PerfType = "genre" | "keyword";
+export type PeriodType = 'daily' | 'weekly';
 export type SelectedItem = SelectedGenre | SelectedKeyword;
 export type UnifiedRow = (GenreRow | KeywordRow) & {
     published_at: string;
@@ -38,11 +40,21 @@ export interface GenreSelectorProps {
   genres: Genre[];
 }
 
-export interface ListParams {
-    prefType: PerfType;
-    prefId: number|string;
-    limit?: number;
-    cursor?: string|null;
+// 新着動画取得時のパラメータ
+export interface GetNewVideosParams {
+  prefType: PerfType;
+  prefId: number|string;
+  limit?: number;
+  cursor?: string|null;
+}
+
+// トレンド動画取得時のパラメータ
+export interface GetTrendVideosParams {
+  periodType: PeriodType;
+  calcDate?: string;              
+  limit?: number;
+  prefType: PerfType;
+  prefId: number|string;
 }
 
 export interface UserSyncPayload {
