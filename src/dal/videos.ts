@@ -3,7 +3,7 @@ import { GenreRow, KeywordRow, ListParams, PerfType, UnifiedRow } from "@/type";
 
 export async function listByPreference({ prefType, prefId, limit = 20, cursor}: ListParams) {
     const isGenre = prefType === "genre";
-    const table = isGenre ? "video_recent_genres" : "videos_recent_keywords";
+    const table = isGenre ? "videos_recent_genres" : "videos_recent_keywords";
     const idCol = isGenre ? "genre_id" : "keyword_id";
 
     const query = supabase
@@ -25,6 +25,7 @@ export async function listByPreference({ prefType, prefId, limit = 20, cursor}: 
     let nextCursor: string | null = null;
     if (data.length > limit) {
         const tail = data.pop()!;
+        console.log(tail);
         nextCursor = `${tail.published_at}__${tail.id}`;
     }
 

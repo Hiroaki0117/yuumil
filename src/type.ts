@@ -51,3 +51,9 @@ export interface UserSyncPayload {
   externalProvider?: string | null;
   externalId?: string | null;
 }
+
+export type Pref = {
+  type: 'genre' | 'keyword';
+  id: string;
+  label: string;
+};

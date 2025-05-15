@@ -18,5 +18,3 @@ export async function insertUserKeywords(userId: string, keywordItems: {id: stri
     console.log(keywordItems[0].id);
     return await supabase.from("user_keywords").insert(keywordItems.map(k => ({user_id: userId, keyword_id: k.id})))
 };
-
-// 指定ユーザーIDのジャンル取得

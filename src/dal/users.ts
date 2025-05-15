@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
-import { UserSyncPayload } from '@/type';
+import { Pref, PrefDetailRow, UserSyncPayload } from '@/type';
 
 // Clerkユーザーをusersテーブルに同期するしUUIDを返す。
 export async function ensureUserRecord({
@@ -35,6 +35,20 @@ export async function getUser(id: string) {
     return data;
 };
 
-export async function ListUserPreferences(userId : string) {
+// 指定ユーザーが登録しているジャンル・キーワード一覧を取得
+export async function listUserPreferencesByClerkId(userId : string): Promise<Pref[] | null> {
+    const { data, error } = await supabase
+    .from("user_preferences_detail_view")
+    .select<'*', PrefDetailRow>("*")
+    .eq("clerk_id", userId);
 
+    if (error) throw error;
+  return (data ?? [])
+    .filter((r): r is PrefDetailRow & { pref_id: string; label: string } =>
+      r.pref_id !== null && r.label !== null)
+    .map((r) => ({
+      type: r.pref_type as Pref['type'],
+      id:   r.pref_id,
+      label: r.label,
+    }));
 };
