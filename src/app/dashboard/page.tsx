@@ -1,6 +1,7 @@
 'use client'
 
 import { Skeleton } from "@/components/ui/skeleton";
+import VideoCard from "@/components/videos/video-card";
 import { useVideoFeed } from "@/lib/hooks/useVideoFeed";
 import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
 import { useEffect, useRef, useState } from "react";
@@ -8,7 +9,7 @@ import useSWR from "swr";
 
 export default function Page() {
   // ユーザーのジャンル・キーワードのリストを取得
-  const { data: prefs } = useSWR('', url => fetch(url).then(r => r.json()));
+  const { data: prefs } = useSWR('api/preferences', url => fetch(url).then(r => r.json()));
   const [activePref, setActivePref] = useState("");
 
   // 動画リスト取得
@@ -33,12 +34,12 @@ export default function Page() {
     }
   }, [prefs, activePref])
   return (
-    <div>
+    <div className="p-4 space-y-6">
       {/* ジャンル・キーワードのトグルボタン */}
       {(prefs && prefs.length) && (
-        <ToggleGroup type="single" value={activePref} onValueChange={setActivePref} className="flex gap-2">
+        <ToggleGroup type="single" value={activePref} onValueChange={setActivePref} className="flex gap-3">
           {prefs.map((pref:any) => (
-            <ToggleGroupItem key={`${pref.type}:${pref.id}`} value={`${pref.type}:${pref.id}`}>
+            <ToggleGroupItem key={`${pref.type}:${pref.id}`} value={`${pref.type}:${pref.id}`} className="px-4 py-1 rounded-full">
               {pref.label}
             </ToggleGroupItem>
           ))}
@@ -46,6 +47,7 @@ export default function Page() {
       )}
 
       {items.map((v) => (
+        
         <VideoCard key={v.id} video={v} data-video-card />
       ))}
 

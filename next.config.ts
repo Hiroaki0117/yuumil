@@ -6,7 +6,15 @@ const nextConfig = {
       allowedOrigins:       ['localhost:3000'],
       allowedForwardedHosts: ['localhost:3000'],
     }
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',   // ← 追加
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -561,6 +561,15 @@ export type Database = {
       }
     }
     Views: {
+      user_preferences_detail_view: {
+        Row: {
+          clerk_id: string | null
+          label: string | null
+          pref_id: string | null
+          pref_type: string | null
+        }
+        Relationships: []
+      }
       user_preferences_view: {
         Row: {
           user_id: string | null
