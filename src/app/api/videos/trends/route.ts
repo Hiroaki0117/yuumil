@@ -1,4 +1,5 @@
-import { listByPreference } from "@/dal/videos";
+import { listRankingsByPreference } from "@/dal/videos";
+import { PerfType, PeriodType } from "@/type";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -15,14 +16,13 @@ export async function GET(req: Request) {
     }
 
     const limit = Number(url.searchParams.get("limit") ?? "20");
-    const cursor = url.searchParams.get("cursor");
+    const periodType = url.searchParams.get("type") ?? <PeriodType>'daily';
 
-    const { data, nextCursor } = await listByPreference({
-        prefType: prefType as "genre" | "keyword",
-        prefId,
-        limit,
-        cursor
-    });
-
-    return NextResponse.json({ data, nextCursor });
-};
+    const data = listRankingsByPreference({
+        periodType: periodType as PeriodType, 
+        limit, 
+        prefType: prefType as PerfType, 
+        prefId});
+    
+    return NextResponse.json(data);
+}

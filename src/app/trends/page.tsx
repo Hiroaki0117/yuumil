@@ -1,4 +1,18 @@
-export const dynamic = 'force-dynamic'; // dev ではキャッシュ無効
-export default function Page() {
-  return <h1 className="text-2xl font-bold">Dashboard – 準備中</h1>;
+import { auth } from "@clerk/nextjs/server";
+import { listUserPreferencesByClerkId } from '@/dal/users';
+import Trends from "@/components/videos/trends";
+
+export default async function Page() {
+  const { userId } = await auth();
+  if (userId) {
+      const prefs = await listUserPreferencesByClerkId(userId);
+
+      if (prefs?.length) {
+        return (
+          <div>
+            <Trends prefs={prefs} />
+          </div>
+        );
+      }
+  }
 }

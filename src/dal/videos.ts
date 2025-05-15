@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
-import { GenreRow, KeywordRow, ListParams, PerfType, UnifiedRow } from "@/type";
+import { GetNewVideosParams, UnifiedRow, GetTrendVideosParams, RankRow } from "@/type";
 
-export async function listByPreference({ prefType, prefId, limit = 20, cursor}: ListParams) {
+export async function listNewsByPreference({ prefType, prefId, limit = 20, cursor}: GetNewVideosParams) {
     const isGenre = prefType === "genre";
     const table = isGenre ? "videos_recent_genres" : "videos_recent_keywords";
     const idCol = isGenre ? "genre_id" : "keyword_id";
@@ -30,4 +30,32 @@ export async function listByPreference({ prefType, prefId, limit = 20, cursor}: 
     }
 
     return { data, nextCursor};
+};
+
+export async function listRankingsByPreference({ periodType, calcDate, limit = 20, prefType, prefId}: GetTrendVideosParams) {
+    const selectPref = prefType === "genre" ? "genre_id" : "keyword_id";
+    if (!calcDate) {
+        const { data: lastDate, error } = await supabase
+            .from("pre_calculated_rankings")
+            .select<"calculation_date", { calculation_date: string}>("calculation_date")
+            .eq("period_type", periodType)
+            .eq(selectPref, prefId)
+            .order("calculation_date", { ascending: false})
+            .limit(1);
+        
+        if (error) throw error;
+        calcDate = lastDate?.[0]?.calculation_date
+    }
+
+    const query = supabase
+            .from("pre_calculated_rankings")
+            .select<"*", RankRow>("*")
+            .eq('period_type', periodType)
+            .eq('calculation_date', calcDate)
+            .order('rank')
+            .limit(limit);
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data ?? [];
 };
