@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function VideoCard({ video }: Props) {
+  console.log(video);
   // プレースホルダー対策
   const thumb = video.thumbnail_url || '/images/no-thumb.png';
 
