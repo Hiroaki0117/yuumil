@@ -31,7 +31,7 @@ export default function Trends({prefs}: Props) {
                 </ToggleGroup>
             )}
             <div className="space-y-2">
-                {(trends && trends.length) && trends.map((t: any) => (
+                {(trends && trends.length) && trends.map((t) => (
                     <TrendRow key={t.video_id as string} videoId={t.video_id as string} />
                 ))}
                 {isLoading && <p>Loading…</p>}

@@ -8,7 +8,7 @@ export async function ensureUserRecord({
     externalProvider,
     externalId
 }: UserSyncPayload): Promise<string | null> {
-    const payload: Record<string, any> = {
+    const payload: Record<string, string> = {
         clerk_id: clerkId,
         email,
     };
