@@ -3,13 +3,15 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import VideoCard from "@/components/videos/video-card";
 import { useVideoFeed } from "@/lib/hooks/useVideoFeed";
+import { Pref } from "@/type";
 import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
 import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 
 export default function Page() {
   // ユーザーのジャンル・キーワードのリストを取得
-  const { data: prefs } = useSWR('api/preferences', url => fetch(url).then(r => r.json()));
+  const fetcher = (url: string): Promise<Pref[]> => fetch(url).then(res => res.json());
+  const { data: prefs } = useSWR<Pref[]>('api/tags', fetcher);
   const [activePref, setActivePref] = useState("");
 
   // 動画リスト取得
@@ -38,7 +40,7 @@ export default function Page() {
       {/* ジャンル・キーワードのトグルボタン */}
       {(prefs && prefs.length) && (
         <ToggleGroup type="single" value={activePref} onValueChange={setActivePref} className="flex gap-3">
-          {prefs.map((pref:any) => (
+          {prefs.map((pref) => (
             <ToggleGroupItem key={`${pref.type}:${pref.id}`} value={`${pref.type}:${pref.id}`} className="px-4 py-1 rounded-full">
               {pref.label}
             </ToggleGroupItem>

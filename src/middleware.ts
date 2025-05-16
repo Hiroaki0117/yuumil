@@ -15,12 +15,12 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
 
-  const { userId: clerkId, sessionClaims  } = await auth();
+  const { userId: clerkId } = await auth();
   if (!clerkId) return null;
   const client = await clerkClient()
   const user   = await client.users.getUser(clerkId)
   
-  let email = 
+  const email = 
     user?.primaryEmailAddress?.emailAddress ??
     user?.emailAddresses?.[0]?.emailAddress ??
     `${clerkId}@users.yumeal`;
@@ -41,6 +41,8 @@ export default clerkMiddleware(async (auth, req) => {
       .from('user_preferences_view')
       .select('user_id', { count: 'exact', head: true })
       .eq('user_id', userId);
+
+    if (error) throw error;
     if (!count && !req.nextUrl.pathname.startsWith('/onboarding')) {
       return NextResponse.redirect(new URL('/onboarding', req.url));
     }

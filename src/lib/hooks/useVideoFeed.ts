@@ -1,9 +1,15 @@
+import { UnifiedRow } from "@/type";
 import useSWRInfinite from "swr/infinite";
+
+interface PageData {
+  nextCursor: string | null;
+  data: UnifiedRow[]; // 実際のデータ配列（オプショナル）
+}
 
 export function useVideoFeed(activePref: string) {
     const PAGE_SIZE = 20;
 
-    const getKey = (page: number, prev: any) => {
+    const getKey = (page: number, prev: PageData) => {
         if (!activePref) return null;
         if (prev && !prev.nextCursor) return null;  // ページが最後である
 
