@@ -2,10 +2,11 @@ import { auth } from '@clerk/nextjs/server';
 import { supabase } from '@/lib/supabaseClient';
 import GenreSelector from './selector';
 import { getUser } from '@/dal/users';
+import { redirect } from 'next/navigation';
 
 export default async function OnboardingPage() {
   const { userId } = await auth();
-  if (!userId) return;
+  if (!userId)  redirect('/dashboard'); ;
   const user = await getUser(userId);
   const id = user.id;
   if (!id) throw console.error("userIdがありません");
