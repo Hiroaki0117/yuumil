@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     const limit = Number(url.searchParams.get("limit") ?? "20");
     const periodType = url.searchParams.get("type") ?? <PeriodType>'daily';
 
-    const data = listRankingsByPreference({
+    const data = await listRankingsByPreference({
         periodType: periodType as PeriodType, 
         limit, 
         prefType: prefType as PerfType, 
