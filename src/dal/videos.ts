@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabaseClient";
-import { GetNewVideosParams, UnifiedRow, GetTrendVideosParams, RankRow } from "@/type";
+import { GetNewVideosParams, UnifiedRow, GetTrendVideosParams, RankRow } from "@/types";
 
 export async function listNewsByPreference({ prefType, prefId, limit = 20, cursor}: GetNewVideosParams) {
     const isGenre = prefType === "genre";

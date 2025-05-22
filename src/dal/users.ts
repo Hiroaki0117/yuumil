@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
-import { Pref, PrefDetailRow, UserSyncPayload } from '@/type';
+import { Pref, PrefDetailRow, UserSyncPayload } from '@/types';
 
 // Clerkユーザーをusersテーブルに同期するしUUIDを返す。
 export async function ensureUserRecord({

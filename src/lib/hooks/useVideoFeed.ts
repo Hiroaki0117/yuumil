@@ -1,4 +1,4 @@
-import { UnifiedRow } from "@/type";
+import { UnifiedRow } from "@/types";
 import useSWRInfinite from "swr/infinite";
 
 interface PageData {

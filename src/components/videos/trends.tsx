@@ -1,6 +1,6 @@
 "use client"
 import { useRankingFeed } from "@/lib/hooks/useRankingFeed";
-import { PeriodType, Pref } from "@/type";
+import { PeriodType, Pref } from "@/types";
 import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
 import { useState } from "react";
 import TrendRow from "./trend-row";

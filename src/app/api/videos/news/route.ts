@@ -1,5 +1,5 @@
 import { listNewsByPreference } from "@/dal/videos";
-import { PerfType } from "@/type";
+import { PerfType } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 

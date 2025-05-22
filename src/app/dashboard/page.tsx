@@ -3,7 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import VideoCard from "@/components/videos/video-card";
 import { useVideoFeed } from "@/lib/hooks/useVideoFeed";
-import { Pref } from "@/type";
+import { Pref } from "@/types";
 import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
 import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
