@@ -1,4 +1,4 @@
-import { PeriodType, RankRow } from "@/type";
+import { PeriodType, RankRow } from "@/types";
 import useSWR from "swr";
 
 export function useRankingFeed(periodType: PeriodType, activePref: string) {

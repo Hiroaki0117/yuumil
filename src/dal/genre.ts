@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient'
-import { SelectedGenre, SelectedKeyword } from '@/type'
+import { SelectedGenre, SelectedKeyword } from '@/types'
 
 // キーワード登録
 export async function upsertKeywords(keywordItems: SelectedKeyword[]): Promise<{id: string}[] | null> {

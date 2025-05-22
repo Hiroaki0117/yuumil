@@ -1,5 +1,5 @@
 import { listRankingsByPreference } from "@/dal/videos";
-import { PerfType, PeriodType } from "@/type";
+import { PerfType, PeriodType } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
