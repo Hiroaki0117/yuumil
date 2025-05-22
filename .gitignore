@@ -44,3 +44,6 @@ next-env.d.ts
 /.clerk/
 # SpecStory explanation file
 .specstory/.what-is-this.md
+
+# Documentation (project-specific development docs)
+/docs
