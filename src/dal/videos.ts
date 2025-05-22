@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/database/supabaseClient";
 import { GetNewVideosParams, UnifiedRow, GetTrendVideosParams, RankRow } from "@/types";
 
 export async function listNewsByPreference({ prefType, prefId, limit = 20, cursor}: GetNewVideosParams) {

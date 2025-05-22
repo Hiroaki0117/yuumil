@@ -1,5 +1,5 @@
 import { clerkMiddleware, createRouteMatcher, clerkClient } from '@clerk/nextjs/server';
-import { supabase } from './lib/supabaseClient';
+import { supabase } from './lib/database/supabaseClient';
 import { NextResponse } from 'next/server';
 import { ensureUserRecord } from './dal/users';
 

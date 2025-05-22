@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/lib/database/supabaseClient';
 import { Pref, PrefDetailRow, UserSyncPayload } from '@/types';
 
 // Clerkユーザーをusersテーブルに同期するしUUIDを返す。
