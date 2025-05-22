@@ -1,0 +1,45 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## Global Color Tokens
+
+| Token | Hex | Usage |
+| --- | --- | --- |
+| `base` | `#1A1B2B` | Root background (dark navy) |
+| `panel` | `#262A44` | Secondary surfaces (cards, forms) |
+| `cyan` | `#00CFC8` | Accent & focus ring |
+| `mag` | `#FF4DCC` | Accent 2 / gradient |
+| `red` | `#E12121` | CTA heat / notification |
+| `dusk` | `#47538F` | Primary dark-blue accent |
+| `white` | `#F3F6FF` | Primary text on dark |
+
+### Hero Section
+
+- **Background:** Radial gradient `red → dusk → base`
+- **Headline:** `white` 90% opacity
+- **CTA Primary:** Linear gradient `red → mag → cyanhover:` inner glow `red` 0 0 12px 50%
+- **CTA Secondary:** Border `cyan`, text `cyan`
+
+### Feature Cards
+
+- **Surface:** `panel`
+- **Icon outline:** `cyan`
+- **Text:** `white` 80 %
+
+### Social Proof Wall
+
+- **Logo strip:** grayscale 50 %, `hover:` opacity 100 %
+- **Separator line:** `white` / 8 %
+
+### Pricing Section
+
+- **Background:** `panel`
+- **Plan badge:** `mag` text on `panel`
+- **Primary CTA (again):** same as Hero
+
+### FAQ
+
+- Radix UI accordion
+- `focus-visible` ring `cyan`
