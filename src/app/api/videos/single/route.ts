@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/database/supabaseClient";
 import { NextResponse } from "next/server";
 
 export const runtime = 'edge';

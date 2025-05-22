@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabaseClient'
+import { supabase } from '@/lib/database/supabaseClient'
 import { SelectedGenre, SelectedKeyword } from '@/types'
 
 // キーワード登録

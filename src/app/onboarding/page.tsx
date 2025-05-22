@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/lib/database/supabaseClient';
 import GenreSelector from './selector';
 import { getUser } from '@/dal/users';
 import { redirect } from 'next/navigation';

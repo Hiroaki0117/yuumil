@@ -1,7 +1,7 @@
 'use client'
 
 import { Skeleton } from "@/components/ui/skeleton";
-import VideoCard from "@/components/videos/video-card";
+import VideoCard from "@/components/features/videos/video-card";
 import { useVideoFeed } from "@/lib/hooks/useVideoFeed";
 import { Pref } from "@/types";
 import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";

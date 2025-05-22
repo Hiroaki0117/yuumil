@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { listUserPreferencesByClerkId } from '@/dal/users';
-import Trends from "@/components/videos/trends";
+import Trends from "@/components/features/videos/trends";
 
 export default async function Page() {
   const { userId } = await auth();
