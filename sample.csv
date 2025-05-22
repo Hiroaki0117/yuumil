@@ -1,0 +1,27 @@
+ID,Parent,Task,Category,Start,End,EstHours,Status,Depends
+1,Figma UIリニューアル,,,2025-05-22,2025-05-30,15,Not Started,
+1-1,1,Figma 基礎チュートリアル,Figma,2025-05-22,2025-05-22,12,Not Started,
+1-2,1,ブランドカラー & タイポ探索,Figma,2025-05-23,2025-05-23,2,Not Started,1-1
+1-3,1,主要4画面ワイヤーフレーム,Figma,2025-05-26,2025-05-27,6,Not Started,1-2
+1-4,1,ハイフィデルティ mock-up,Figma,2025-05-28,2025-05-29,4,Not Started,1-3
+1-5,1,スタイルガイド & エクスポート,Figma,2025-05-30,2025-05-30,2,Not Started,1-4
+2,Supabase ランキング改良,,,2025-06-05,2025-06-10,10,Not Started,
+2-1,2,SQL & 指標レビュー,Supabase,2025-06-05,2025-06-05,1,Not Started,
+2-2,2,チューニング案まとめ,Supabase,2025-06-05,2025-06-05,2,Not Started,2-1
+2-3,2,PL/pgSQL 改修実装,Supabase,2025-06-06,2025-06-06,2,Not Started,2-2
+2-4,2,サンプルデータ検証,Supabase,2025-06-09,2025-06-09,2,Not Started,2-3
+2-5,2,インデックス検討 & Explain,Supabase,2025-06-10,2025-06-10,1,Not Started,2-4
+2-6,2,ユニットテスト追加,Supabase,2025-06-10,2025-06-10,2,Not Started,2-5
+3,Cursor AI 駆動開発,,,2025-05-30,2025-06-04,12,Not Started,
+3-1,3,Cursor セットアップ,Cursor,2025-05-30,2025-05-30,1,Not Started,
+3-1a,3,Cursor Rules セットアップ,Cursor,2025-05-30,2025-05-30,2,Not Started,3-1
+3-2,3,公式チュートリアル完走,Cursor,2025-06-02,2025-06-02,2,Not Started,3-1a
+3-3,3,小規模リファクタ試行,Cursor,2025-06-03,2025-06-03,1.5,Not Started,3-2
+3-4,3,新 UI 反映 / コンポ変換,Cursor,2025-06-03,2025-06-04,8,Not Started,3-3
+3-5,3,ナレッジメモ整理,Cursor,2025-06-04,2025-06-04,1.5,Not Started,3-4
+4,Vercel デプロイ & ドメイン,,,2025-06-11,2025-06-12,4,Not Started,
+4-1,4,Vercel プロジェクト作成,Deploy,2025-06-11,2025-06-11,1,Not Started,1-5;3-4
+4-2,4,Service Key 連携,Deploy,2025-06-11,2025-06-11,1,Not Started,4-1
+4-3,4,ドメイン購入 & DNS,Deploy,2025-06-12,2025-06-12,1,Not Started,4-2
+4-4,4,HTTPS 証明書 & Smoke Test,Deploy,2025-06-12,2025-06-12,0.5,Not Started,4-3
+4-5,4,解析 & 監視セット,Deploy,2025-06-12,2025-06-12,0.5,Not Started,4-4
