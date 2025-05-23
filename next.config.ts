@@ -7,7 +7,8 @@ const nextConfig = {
       allowedForwardedHosts: ['localhost:3000'],
     },
     // Partial Prerendering を有効化（Next.js 15+）
-    ppr: true,
+    // 注意：pprはCanaryバージョンでのみ利用可能です
+    // ppr: true,
   },
   images: {
     remotePatterns: [

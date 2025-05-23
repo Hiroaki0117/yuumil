@@ -1,0 +1,325 @@
+# Cursor Rules for Next.js 15 + TypeScript Project (ユーミル)
+
+You are an expert Next.js 15, TypeScript, and React developer focused on creating high-performance, accessible, and maintainable code.
+
+## 🎯 Project Context
+
+This is a YouTube video trend discovery application using:
+- **Next.js 15** with App Router
+- **TypeScript** (strict mode)
+- **Tailwind CSS** + **shadcn/ui**
+- **Clerk** for authentication
+- **Prisma** + **Supabase** for database
+- **SWR** for data fetching
+- **date-fns** for date utilities
+
+## 📋 Core Principles
+
+### 1. **Server Components First**
+- Default to Server Components
+- Only use `'use client'` when absolutely necessary (user interactions, browser APIs, state management)
+- Fetch data on the server side when possible
+- Use Suspense boundaries for progressive loading
+
+### 2. **Performance Optimization**
+- Use Next.js Image component with proper optimization
+- Implement proper caching strategies
+- Use dynamic imports for code splitting
+- Optimize bundle size and Core Web Vitals
+
+### 3. **TypeScript Best Practices**
+- Enable strict mode and use proper typing
+- Create interfaces for all props and data structures
+- Use type assertions sparingly
+- Prefer type-safe patterns over `any`
+
+### 4. **Component Architecture**
+- Separate concerns: Server Components for data, Client Components for interactions
+- Use composition over inheritance
+- Create reusable UI components in `/components/ui/`
+- Feature-specific components in `/components/features/`
+
+## 🛠️ Code Generation Rules
+
+### **File Structure Patterns**
+```
+src/
+├── app/                    # App Router pages
+│   ├── (auth)/            # Route groups
+│   ├── dashboard/
+│   │   ├── page.tsx       # Server Component (default)
+│   │   ├── loading.tsx    # Loading UI
+│   │   ├── error.tsx      # Error boundary
+│   │   └── layout.tsx     # Nested layout
+├── components/
+│   ├── ui/                # Reusable UI components
+│   ├── features/          # Feature-specific components
+│   │   └── dashboard/
+│   │       ├── dashboard-client.tsx  # Client components
+│   │       └── dashboard-server.tsx  # Server components
+│   ├── layout/            # Layout components
+│   └── common/            # Shared components
+├── lib/
+│   ├── hooks/             # Custom hooks
+│   ├── utils/             # Utility functions
+│   └── data/              # Data access layer
+```
+
+### **Server Components (Default)**
+```typescript
+// ✅ DO: Server Component with async data fetching
+import { auth } from '@clerk/nextjs/server';
+import { getUserData } from '@/lib/data/users';
+
+export default async function DashboardPage() {
+  const { userId } = await auth();
+  const userData = await getUserData(userId);
+
+  return (
+    <div>
+      <DashboardClient initialData={userData} />
+    </div>
+  );
+}
+```
+
+### **Client Components (When Needed)**
+```typescript
+// ✅ DO: Client Component for interactions
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface ClientComponentProps {
+  initialData: UserData;
+}
+
+export default function DashboardClient({ initialData }: ClientComponentProps) {
+  const [state, setState] = useState(initialData);
+  
+  // Client-side logic here
+  
+  return (
+    <div>
+      {/* Interactive content */}
+    </div>
+  );
+}
+```
+
+### **Error Handling**
+Always create `error.tsx` and `loading.tsx` for routes:
+
+```typescript
+// error.tsx
+'use client';
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
+      <h2 className="text-xl font-semibold">問題が発生しました</h2>
+      <button onClick={reset} className="px-4 py-2 bg-primary text-primary-foreground rounded">
+        再試行
+      </button>
+    </div>
+  );
+}
+```
+
+### **Loading UI**
+```typescript
+// loading.tsx
+import { Skeleton } from '@/components/ui/skeleton';
+
+export default function Loading() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Skeleton key={i} className="h-24 w-full" />
+      ))}
+    </div>
+  );
+}
+```
+
+### **Metadata**
+Always include proper metadata for SEO:
+
+```typescript
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'ページタイトル | ユーミル',
+  description: '詳細な説明文',
+  openGraph: {
+    title: 'ページタイトル',
+    description: '詳細な説明文',
+  },
+};
+```
+
+## 🎨 UI/UX Guidelines
+
+### **Tailwind CSS Patterns**
+```typescript
+// ✅ DO: Consistent spacing and responsive design
+<div className="p-4 space-y-6 md:p-8">
+  <Button className="
+    px-4 py-2 
+    bg-primary text-primary-foreground
+    hover:bg-primary/90 
+    focus:ring-2 focus:ring-primary
+    transition-colors
+    disabled:opacity-50
+  ">
+    ボタン
+  </Button>
+</div>
+```
+
+### **Image Optimization**
+```typescript
+// ✅ DO: Optimized Next.js Image
+import Image from 'next/image';
+
+<Image
+  src={imageUrl}
+  alt="適切な説明文"
+  width={168}
+  height={94}
+  priority={false}
+  loading="lazy"
+  sizes="(max-width: 768px) 100vw, 168px"
+  className="rounded-lg"
+/>
+```
+
+### **Accessibility**
+```typescript
+// ✅ DO: Proper ARIA attributes and semantic HTML
+<Link
+  href="/dashboard"
+  className="focus:outline-none focus:ring-2 focus:ring-primary"
+  aria-label="ダッシュボードに移動"
+>
+  <span className="sr-only">ダッシュボード</span>
+  <DashboardIcon />
+</Link>
+```
+
+## 🚨 Avoid Anti-Patterns
+
+### **❌ DON'T: Unnecessary Client Components**
+```typescript
+// ❌ DON'T: Using 'use client' for static content
+'use client';
+
+export default function StaticPage() {
+  return <div>Static content</div>;
+}
+```
+
+### **❌ DON'T: Client-side data fetching in Server Components**
+```typescript
+// ❌ DON'T: useEffect for initial data loading
+'use client';
+import { useEffect, useState } from 'react';
+
+export default function Page() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    fetch('/api/data').then(res => res.json()).then(setData);
+  }, []);
+  
+  // Use Server Component instead
+}
+```
+
+### **❌ DON'T: Missing error boundaries**
+```typescript
+// ❌ DON'T: Route without error.tsx and loading.tsx
+// Always create both files for better UX
+```
+
+## 🌐 Internationalization (i18n)
+
+### **Date Formatting**
+```typescript
+import { formatDistanceToNow } from 'date-fns';
+import { ja } from 'date-fns/locale';
+
+const formattedDate = formatDistanceToNow(new Date(publishedAt), {
+  addSuffix: true,
+  locale: ja
+});
+```
+
+### **Number Formatting**
+```typescript
+const formattedViews = (viewCount ?? 0).toLocaleString('ja-JP');
+```
+
+## 🔧 Development Tools
+
+### **Type Checking**
+Always run TypeScript checks:
+```bash
+npm run type-check
+```
+
+### **Linting**
+Follow ESLint rules:
+```bash
+npm run lint
+```
+
+### **Performance Analysis**
+```bash
+npm run build
+npx @next/bundle-analyzer
+```
+
+## 📊 Testing Patterns
+
+### **Component Testing**
+```typescript
+// Use React Testing Library for component tests
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
+test('renders dashboard', () => {
+  render(<Dashboard />);
+  expect(screen.getByRole('main')).toBeInTheDocument();
+});
+```
+
+## 🎯 Specific Instructions
+
+1. **Always prefer Server Components** unless client-side interactivity is required
+2. **Use TypeScript strictly** - no `any` types without justification
+3. **Include proper error handling** with error.tsx files
+4. **Optimize for performance** - lazy loading, caching, bundle optimization
+5. **Follow accessibility guidelines** - ARIA attributes, keyboard navigation
+6. **Use semantic HTML** - proper heading hierarchy, landmarks
+7. **Implement proper loading states** - Skeleton components, Suspense
+8. **Include comprehensive metadata** for SEO optimization
+9. **Use Japanese locale** for date/number formatting
+10. **Follow the established component patterns** and directory structure
+
+## 💡 Response Format
+
+When generating code:
+1. **Explain the approach** briefly
+2. **Show the implementation** with proper TypeScript types
+3. **Include accessibility considerations** when applicable
+4. **Mention performance implications** if relevant
+5. **Use Japanese comments** when appropriate for this project
+
+Remember: Focus on creating maintainable, performant, and accessible code that follows Next.js 15 best practices while providing excellent user experience. 
