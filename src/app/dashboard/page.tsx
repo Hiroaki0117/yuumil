@@ -1,62 +1,65 @@
-'use client'
-
+import { Suspense } from 'react';
+import { auth } from '@clerk/nextjs/server';
+import { listUserPreferencesByClerkId } from '@/dal/users';
+import DashboardClient from '@/components/features/dashboard/dashboard-client';
 import { Skeleton } from "@/components/ui/skeleton";
-import VideoCard from "@/components/features/videos/video-card";
-import { useVideoFeed } from "@/lib/hooks/useVideoFeed";
-import { Pref } from "@/types";
-import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
-import { useEffect, useRef, useState } from "react";
-import useSWR from "swr";
+import type { Metadata } from 'next';
 
-export default function Page() {
-  // ユーザーのジャンル・キーワードのリストを取得
-  const fetcher = (url: string): Promise<Pref[]> => fetch(url).then(res => res.json());
-  const { data: prefs } = useSWR<Pref[]>('api/tags', fetcher);
-  const [activePref, setActivePref] = useState("");
+export const metadata: Metadata = {
+  title: 'ダッシュボード | ユーミル',
+  description: 'あなたの興味に基づいたYouTube動画フィードを表示',
+  openGraph: {
+    title: 'ダッシュボード | ユーミル',
+    description: 'あなたの興味に基づいたYouTube動画フィードを表示',
+    type: 'website',
+  },
+};
 
-  // 動画リスト取得
-  const { items, setSize, isLoadingMore } = useVideoFeed(activePref);
-  const sentinel = useRef<HTMLDivElement>(null);
-
-  // sentinelの監視 
-  useEffect(() => {
-    if (!sentinel.current) return;
-    const io = new IntersectionObserver(e => {
-      if (e[0].isIntersecting) setSize(prev => prev + 1);
-    });
-    io.observe(sentinel.current);
-    return () => io.disconnect();
-  }, [setSize]);
-
-  // 初回のジャンル・キーワードを自動選択
-  useEffect(() => {
-    if (prefs && prefs.length && !activePref) {
-      const p = prefs[0];
-      setActivePref(`${p.type}:${p.id}`);
-    }
-  }, [prefs, activePref])
+function DashboardSkeleton() {
   return (
     <div className="p-4 space-y-6">
-      {/* ジャンル・キーワードのトグルボタン */}
-      {(prefs && prefs.length) && (
-        <ToggleGroup type="single" value={activePref} onValueChange={setActivePref} className="flex gap-3">
-          {prefs.map((pref) => (
-            <ToggleGroupItem key={`${pref.type}:${pref.id}`} value={`${pref.type}:${pref.id}`} className="px-4 py-1 rounded-full">
-              {pref.label}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-      )}
+      {/* トグルボタンのスケルトン */}
+      <div className="flex gap-3">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} className="h-10 w-20" />
+        ))}
+      </div>
+      
+      {/* 動画カードのスケルトン */}
+      <div className="space-y-4">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Skeleton key={i} className="h-24 w-full" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
-      {items.map((v) => (
-        
-        <VideoCard key={v.id} video={v} data-video-card />
-      ))}
+export default async function DashboardPage() {
+  const { userId: clerkId } = await auth();
+  
+  if (!clerkId) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">認証が必要です</h1>
+          <p className="text-muted-foreground">
+            ダッシュボードにアクセスするにはログインしてください
+          </p>
+        </div>
+      </div>
+    );
+  }
 
-      {/* Skeleton */}
-      {isLoadingMore && Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-40 w-full" />)}
+  // サーバーサイドでユーザーの設定を取得
+  const prefsResult = await listUserPreferencesByClerkId(clerkId);
+  const prefs = prefsResult || [];
 
-      <div ref={sentinel} className="h-4" />
+  return (
+    <div className="p-4 space-y-6">
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardClient initialPrefs={prefs} />
+      </Suspense>
     </div>
   );
 }
