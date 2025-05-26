@@ -1,0 +1,87 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe"/>
+      <stop offset="100%" style="stop-color:#00f2fe"/>
+    </linearGradient>
+    <linearGradient id="clock" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e"/>
+      <stop offset="100%" style="stop-color:#fecfef"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#bg2)" filter="url(#glow2)"/>
+  
+  <!-- Clock face -->
+  <circle cx="100" cy="100" r="50" fill="white" opacity="0.9" stroke="#4facfe" stroke-width="3"/>
+  
+  <!-- Clock numbers -->
+  <g fill="#4facfe" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">
+    <text x="100" y="60">12</text>
+    <text x="130" y="108">3</text>
+    <text x="100" y="150">6</text>
+    <text x="70" y="108">9</text>
+  </g>
+  
+  <!-- Clock hands -->
+  <g stroke="#4facfe" stroke-width="3" stroke-linecap="round">
+    <!-- Hour hand -->
+    <line x1="100" y1="100" x2="100" y2="80">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" values="0 100 100;360 100 100" dur="12s" repeatCount="indefinite"/>
+    </line>
+    <!-- Minute hand -->
+    <line x1="100" y1="100" x2="100" y2="70">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" values="0 100 100;360 100 100" dur="2s" repeatCount="indefinite"/>
+    </line>
+  </g>
+  
+  <!-- Center dot -->
+  <circle cx="100" cy="100" r="4" fill="#4facfe"/>
+  
+  <!-- 24h indicator -->
+  <rect x="75" y="160" width="50" height="20" rx="10" fill="url(#clock)" filter="url(#glow2)"/>
+  <text x="100" y="173" text-anchor="middle" fill="white" font-family="Arial" font-size="12" font-weight="bold">24h</text>
+  
+  <!-- Automation arrows -->
+  <g stroke="#ff4dcc" stroke-width="2" fill="none" opacity="0.8">
+    <path d="M60,60 Q40,40 20,60">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M140,60 Q160,40 180,60">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M60,140 Q40,160 20,140">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </path>
+    <path d="M140,140 Q160,160 180,140">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Video collection icons -->
+  <g fill="white" opacity="0.7">
+    <rect x="25" y="45" width="15" height="10" rx="2"/>
+    <circle cx="32.5" cy="50" r="2" fill="#4facfe"/>
+    
+    <rect x="160" y="45" width="15" height="10" rx="2"/>
+    <circle cx="167.5" cy="50" r="2" fill="#4facfe"/>
+    
+    <rect x="25" y="145" width="15" height="10" rx="2"/>
+    <circle cx="32.5" cy="150" r="2" fill="#4facfe"/>
+    
+    <rect x="160" y="145" width="15" height="10" rx="2"/>
+    <circle cx="167.5" cy="150" r="2" fill="#4facfe"/>
+  </g>
+  
+  <!-- Step number -->
+  <circle cx="30" cy="30" r="15" fill="#ff4dcc" filter="url(#glow2)"/>
+  <text x="30" y="36" text-anchor="middle" fill="white" font-family="Arial" font-size="14" font-weight="bold">2</text>
+</svg>

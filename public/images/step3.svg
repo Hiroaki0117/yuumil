@@ -1,0 +1,95 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a8edea"/>
+      <stop offset="100%" style="stop-color:#fed6e3"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <linearGradient id="video1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#ee5a24"/>
+    </linearGradient>
+    <linearGradient id="video2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ecdc4"/>
+      <stop offset="100%" style="stop-color:#44a08d"/>
+    </linearGradient>
+    <linearGradient id="video3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#bg3)" filter="url(#glow3)"/>
+  
+  <!-- Phone/tablet screen -->
+  <rect x="60" y="40" width="80" height="120" rx="12" fill="url(#screen)" filter="url(#glow3)"/>
+  <rect x="65" y="45" width="70" height="110" rx="8" fill="white" opacity="0.1"/>
+  
+  <!-- Video feed items -->
+  <g opacity="0.9">
+    <!-- Video 1 -->
+    <rect x="70" y="50" width="60" height="25" rx="4" fill="url(#video1)"/>
+    <circle cx="85" cy="62.5" r="4" fill="white" opacity="0.8"/>
+    <polygon points="82,59 82,66 88,62.5" fill="url(#video1)"/>
+    
+    <!-- Video 2 -->
+    <rect x="70" y="80" width="60" height="25" rx="4" fill="url(#video2)"/>
+    <circle cx="85" cy="92.5" r="4" fill="white" opacity="0.8"/>
+    <polygon points="82,89 82,96 88,92.5" fill="url(#video2)"/>
+    
+    <!-- Video 3 -->
+    <rect x="70" y="110" width="60" height="25" rx="4" fill="url(#video3)"/>
+    <circle cx="85" cy="122.5" r="4" fill="white" opacity="0.8"/>
+    <polygon points="82,119 82,126 88,122.5" fill="url(#video3)"/>
+  </g>
+  
+  <!-- Trending indicators -->
+  <g fill="#ff4dcc" font-family="Arial" font-size="8" font-weight="bold">
+    <rect x="105" y="52" width="20" height="8" rx="4" fill="#ff4dcc"/>
+    <text x="115" y="58" text-anchor="middle" fill="white">HOT</text>
+    
+    <rect x="105" y="82" width="20" height="8" rx="4" fill="#4ecdc4"/>
+    <text x="115" y="88" text-anchor="middle" fill="white">NEW</text>
+  </g>
+  
+  <!-- Feed scroll indicator -->
+  <rect x="132" y="50" width="2" height="80" rx="1" fill="white" opacity="0.3"/>
+  <rect x="132" y="60" width="2" height="20" rx="1" fill="#ff4dcc">
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,40;0,0" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- Floating likes/hearts -->
+  <g fill="#ff4dcc" opacity="0.7">
+    <path d="M40,80 C40,75 45,70 50,70 C55,70 60,75 60,80 C60,85 50,95 50,95 C50,95 40,85 40,80 Z">
+      <animateTransform attributeName="transform" type="translate" values="0,0;-10,-20;-20,-40" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.3;0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    
+    <path d="M150,120 C150,115 155,110 160,110 C165,110 170,115 170,120 C170,125 160,135 160,135 C160,135 150,125 150,120 Z">
+      <animateTransform attributeName="transform" type="translate" values="0,0;10,-15;20,-30" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.3;0" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Eye icon for viewing -->
+  <g transform="translate(100, 170)" fill="white" opacity="0.8">
+    <ellipse cx="0" cy="0" rx="8" ry="5"/>
+    <circle cx="0" cy="0" r="3" fill="#4facfe"/>
+    <circle cx="0" cy="0" r="1" fill="white"/>
+  </g>
+  
+  <!-- Step number -->
+  <circle cx="30" cy="30" r="15" fill="#ff4dcc" filter="url(#glow3)"/>
+  <text x="30" y="36" text-anchor="middle" fill="white" font-family="Arial" font-size="14" font-weight="bold">3</text>
+</svg>
