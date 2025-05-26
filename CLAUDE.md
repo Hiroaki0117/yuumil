@@ -23,6 +23,14 @@ Yuumil is a video discovery and recommendation platform built with Next.js 15, f
 - Delete branch after merge
 - **IMPORTANT**: Always create PR automatically after committing changes using `gh pr create`
 
+## Allowed Tools
+
+### Core Development Tools
+- **Edit** - Make precise edits to files
+- **Bash(git commit:*)** - Execute git commits and related commands
+- **Important**: Always ask for confirmation before executing `git push` commands
+- **Automation Policy**: Automate all development tasks except git push operations
+
 ## Essential Commands
 
 ### Development
