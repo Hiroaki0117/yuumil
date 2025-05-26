@@ -21,6 +21,7 @@ Yuumil is a video discovery and recommendation platform built with Next.js 15, f
 - All changes must go through Pull Request
 - Use Squash merge strategy
 - Delete branch after merge
+- **IMPORTANT**: Always create PR automatically after committing changes using `gh pr create`
 
 ## Essential Commands
 
