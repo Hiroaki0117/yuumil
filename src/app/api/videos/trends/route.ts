@@ -1,4 +1,4 @@
-import { listRankingsByPreference } from "@/dal/videos";
+import { listRankingsByTag } from "@/dal/videos";
 import { PerfType, PeriodType } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     const limit = Number(url.searchParams.get("limit") ?? "20");
     const periodType = url.searchParams.get("type") ?? <PeriodType>'daily';
 
-    const data = await listRankingsByPreference({
+    const data = await listRankingsByTag({
         periodType: periodType as PeriodType, 
         limit, 
         prefType: prefType as PerfType, 

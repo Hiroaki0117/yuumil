@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/database/supabaseClient';
-import { Pref, PrefDetailRow, UserSyncPayload } from '@/types';
+import { Tag, TagDetailRow, UserSyncPayload } from '@/types';
 
 // Clerkユーザーをusersテーブルに同期するしUUIDを返す。
 export async function ensureUserRecord({
@@ -36,19 +36,19 @@ export async function getUser(id: string) {
 };
 
 // 指定ユーザーが登録しているジャンル・キーワード一覧を取得
-export async function listUserPreferencesByClerkId(userId : string): Promise<Pref[] | null> {
+export async function listUserTagsByClerkId(userId : string): Promise<Tag[] | null> {
     const { data, error } = await supabase
-    .from("user_preferences_detail_view")
-    .select<'*', PrefDetailRow>("*")
+    .from("user_tags_detail_view")
+    .select<'*', TagDetailRow>("*")
     .eq("clerk_id", userId);
 
     if (error) throw error;
   return (data ?? [])
-    .filter((r): r is PrefDetailRow & { pref_id: string; label: string } =>
-      r.pref_id !== null && r.label !== null)
+    .filter((r): r is TagDetailRow & { tag_id: string; label: string } =>
+      r.tag_id !== null && r.label !== null)
     .map((r) => ({
-      type: r.pref_type as Pref['type'],
-      id:   r.pref_id,
+      type: r.tag_type as Tag['type'],
+      id:   r.tag_id,
       label: r.label,
     }));
 };

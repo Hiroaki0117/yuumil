@@ -38,7 +38,7 @@ export default clerkMiddleware(async (auth, req) => {
   if (userId) {
     console.log("userId："+userId);
     const { count, error } = await supabase
-      .from('user_preferences_view')
+      .from('user_tags_view')
       .select('user_id', { count: 'exact', head: true })
       .eq('user_id', userId);
 

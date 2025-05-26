@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/database/supabaseClient";
 import { GetNewVideosParams, UnifiedRow, GetTrendVideosParams, RankRow } from "@/types";
 
-export async function listNewsByPreference({ prefType, prefId, limit = 20, cursor}: GetNewVideosParams) {
+export async function listNewsByTag({ prefType, prefId, limit = 20, cursor}: GetNewVideosParams) {
     const isGenre = prefType === "genre";
     const table = isGenre ? "videos_recent_genres" : "videos_recent_keywords";
     const idCol = isGenre ? "genre_id" : "keyword_id";
@@ -32,7 +32,7 @@ export async function listNewsByPreference({ prefType, prefId, limit = 20, curso
     return { data, nextCursor};
 };
 
-export async function listRankingsByPreference({ periodType, calcDate, limit = 20, prefType, prefId}: GetTrendVideosParams) {
+export async function listRankingsByTag({ periodType, calcDate, limit = 20, prefType, prefId}: GetTrendVideosParams) {
     const selectPref = prefType === "genre" ? "genre_id" : "keyword_id";
     if (!calcDate) {
         const { data: lastDate, error } = await supabase
