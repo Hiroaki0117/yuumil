@@ -1,4 +1,4 @@
-import { listNewsByPreference } from "@/dal/videos";
+import { listNewsByTag } from "@/dal/videos";
 import { PerfType } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     const limit = Number(url.searchParams.get("limit") ?? "20");
     const cursor = url.searchParams.get("cursor");
 
-    const { data, nextCursor } = await listNewsByPreference({
+    const { data, nextCursor } = await listNewsByTag({
         prefType: prefType as PerfType,
         prefId,
         limit,

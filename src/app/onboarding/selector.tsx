@@ -1,8 +1,8 @@
 'use client'
 import React from 'react';
 import { GenreSelectorProps } from '@/types';
-import PreferenceSelector from '@/components/features/onboarding/preference-selector';
+import TagSelector from '@/components/features/onboarding/tag-selector';
 
 export default function GenreSelector({userId, genres}: GenreSelectorProps) {
-  return <PreferenceSelector userId={userId} genres={genres} />;
+  return <TagSelector userId={userId} genres={genres} />;
 }

@@ -1,16 +1,16 @@
 import { auth } from "@clerk/nextjs/server";
-import { listUserPreferencesByClerkId } from '@/dal/users';
+import { listUserTagsByClerkId } from '@/dal/users';
 import Trends from "@/components/features/videos/trends";
 
 export default async function Page() {
   const { userId } = await auth();
   if (userId) {
-      const prefs = await listUserPreferencesByClerkId(userId);
+      const tags = await listUserTagsByClerkId(userId);
 
-      if (prefs?.length) {
+      if (tags?.length) {
         return (
           <div>
-            <Trends prefs={prefs} />
+            <Trends prefs={tags} />
           </div>
         );
       }

@@ -1,6 +1,6 @@
 // アプリケーション設定
 export const APP_CONFIG = {
-  MAX_PREFERENCES: 3,
+  MAX_TAGS: 3,
   PAGE_SIZE: 20,
   VIDEO_FETCH_LIMIT: 20,
   REFRESH_INTERVAL: 12 * 60 * 60 * 1000, // 12時間

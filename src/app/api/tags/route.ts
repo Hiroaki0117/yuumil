@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { listUserPreferencesByClerkId } from '@/dal/users';
+import { listUserTagsByClerkId } from '@/dal/users';
 
 export const runtime = 'edge';
 
@@ -8,6 +8,6 @@ export async function GET() {
   const { userId: clerkId } = await auth();
   if (!clerkId) return NextResponse.json([], { status: 401 });
 
-  const prefs = await listUserPreferencesByClerkId(clerkId);
-  return NextResponse.json(prefs);
+  const tags = await listUserTagsByClerkId(clerkId);
+  return NextResponse.json(tags);
 }

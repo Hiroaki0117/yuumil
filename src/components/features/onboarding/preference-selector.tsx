@@ -9,7 +9,7 @@ import GenreGrid from './genre-grid';
 import KeywordInput from '@/components/forms/keyword-input';
 import SelectedItemsDisplay from '@/components/common/selected-items-display';
 
-export default function PreferenceSelector({userId, genres}: GenreSelectorProps) {
+export default function TagSelector({userId, genres}: GenreSelectorProps) {
     const MAX = 3;
     const [selected, setSelected] = useState<SelectedItem[]>([]);
     const [keyword, setKeyword] = useState("");

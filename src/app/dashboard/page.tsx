@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { auth } from '@clerk/nextjs/server';
-import { listUserPreferencesByClerkId } from '@/dal/users';
+import { listUserTagsByClerkId } from '@/dal/users';
 import DashboardClient from '@/components/features/dashboard/dashboard-client';
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Metadata } from 'next';
@@ -82,8 +82,8 @@ export default async function DashboardPage() {
   }
 
   // サーバーサイドでユーザーの設定を取得
-  const prefsResult = await listUserPreferencesByClerkId(clerkId);
-  const prefs = prefsResult || [];
+  const tagsResult = await listUserTagsByClerkId(clerkId);
+  const tags = tagsResult || [];
 
   return (
     <div className="relative">
@@ -93,7 +93,7 @@ export default async function DashboardPage() {
       {/* メインコンテンツ */}
       <div className="relative z-10">
         <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardClient initialPrefs={prefs} />
+          <DashboardClient initialPrefs={tags} />
         </Suspense>
       </div>
     </div>
