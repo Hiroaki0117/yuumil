@@ -1,17 +1,21 @@
-import Feature from "@/components/marketing/feature";
-import FinalCta from "@/components/marketing/final-cta";
-import Hero from "@/components/marketing/hero";
-import HowItWorks from "@/components/marketing/how-it-works";
-import SocialProof from "@/components/marketing/social-proof";
+import { HeroEnhanced } from "@/components/marketing/hero-enhanced";
+import { FeatureShowcase } from "@/components/marketing/feature-showcase";
+import { StatsShowcase } from "@/components/marketing/stats-showcase";
+import { TestimonialsEnhanced } from "@/components/marketing/testimonials-enhanced";
+import { PricingSection } from "@/components/marketing/pricing-section";
+import { FAQSection } from "@/components/marketing/faq-section";
+import { FinalCTAEnhanced } from "@/components/marketing/final-cta-enhanced";
 
 export default function MarketingPage() {
     return (
         <>
-            <Hero />
-            <Feature />
-            <HowItWorks />
-            <SocialProof />
-            <FinalCta />
+            <HeroEnhanced />
+            <FeatureShowcase />
+            <StatsShowcase />
+            <TestimonialsEnhanced />
+            <PricingSection />
+            <FAQSection />
+            <FinalCTAEnhanced />
         </>
     );
 }
