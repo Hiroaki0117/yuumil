@@ -20,6 +20,41 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## MCP (Model Context Protocol) Setup
+
+This project supports Supabase MCP for AI assistants like Cursor. **IMPORTANT: Never commit your actual MCP configuration file with access tokens!**
+
+### Setup Instructions
+
+1. **Create Personal Access Token**
+
+   - Go to [Supabase Dashboard](https://supabase.com/dashboard) → Settings → Access Tokens
+   - Generate a new token for MCP usage
+
+2. **Configure MCP**
+
+   ```bash
+   # Copy the example configuration
+   cp .cursor/mcp.json.example .cursor/mcp.json
+
+   # Edit with your actual tokens
+   # Replace YOUR_SUPABASE_PERSONAL_ACCESS_TOKEN with your token
+   # Replace YOUR_PROJECT_ID with: lcxkydjlpbypmmtmfigs
+   ```
+
+3. **Security Note**
+   - `.cursor/mcp.json` is automatically ignored by Git
+   - Never share your personal access tokens
+   - Use read-only mode when possible by adding `--read-only` flag
+
+### Usage with Cursor IDE
+
+After setup, you can ask Cursor AI assistant:
+
+- "Show me the Supabase database schema"
+- "List all tables in the database"
+- "Create a new migration"
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

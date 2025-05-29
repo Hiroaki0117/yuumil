@@ -45,3 +45,6 @@ next-env.d.ts
 # SpecStory explanation file
 .specstory/.what-is-this.md
 
+# Cursor IDE configuration (contains sensitive tokens)
+.cursor/
+
