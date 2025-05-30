@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:types": "supabase gen types typescript --project-id lcxkydjlpbypmmtmfigs > src/types/database.ts",
+    "db:types:local": "supabase gen types typescript --local > src/types/database.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.19.1",
