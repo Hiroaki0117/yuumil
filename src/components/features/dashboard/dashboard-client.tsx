@@ -13,10 +13,18 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ initialPrefs }: DashboardClientProps) {
   const [activePref, setActivePref] = useState("");
+  const [period, setPeriod] = useState("trend24h"); // 期間選択状態を追加
 
-  // 動画リスト取得
-  const { items, setSize, isLoadingMore } = useVideoFeed(activePref);
+  // 動画リスト取得（期間パラメータを追加）
+  const { items, setSize, isLoadingMore, mutate } = useVideoFeed(activePref, period);
   const sentinel = useRef<HTMLDivElement>(null);
+
+  // 期間が変更された際にデータをリセット
+  useEffect(() => {
+    if (activePref) {
+      mutate(); // SWRキャッシュをリセットして新しいデータを取得
+    }
+  }, [period, mutate, activePref]);
 
   // sentinelの監視（無限スクロール）
   useEffect(() => {
@@ -71,6 +79,50 @@ export default function DashboardClient({ initialPrefs }: DashboardClientProps) 
           <span className="text-2xl text-muted-foreground">トレンドフィード</span>
         </h1>
         <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-cyan-500 mx-auto rounded-full"></div>
+      </div>
+
+      {/* 期間選択セクション */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-center">トレンド期間</h2>
+        <ToggleGroup 
+          type="single" 
+          value={period} 
+          onValueChange={setPeriod} 
+          className="flex justify-center gap-3"
+        >
+          <ToggleGroupItem 
+            value="trend24h" 
+            className="group relative px-4 py-2 rounded-full glass-morphism transition-all duration-300 hover:scale-105 hover:neon-glow data-[state=on]:neon-border data-[state=on]:cyber-glow focus:outline-none focus:ring-2 focus:ring-primary/50"
+            aria-label="24時間のトレンドを表示"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-red-500/10 to-pink-500/10 rounded-full opacity-0 group-hover:opacity-100 data-[state=on]:opacity-100 transition-opacity duration-300"></div>
+            <span className="relative z-10 font-medium text-sm group-data-[state=on]:text-transparent group-data-[state=on]:bg-gradient-to-r group-data-[state=on]:from-orange-400 group-data-[state=on]:to-red-400 group-data-[state=on]:bg-clip-text transition-all duration-300">
+              24時間
+            </span>
+          </ToggleGroupItem>
+          
+          <ToggleGroupItem 
+            value="trend7d" 
+            className="group relative px-4 py-2 rounded-full glass-morphism transition-all duration-300 hover:scale-105 hover:neon-glow data-[state=on]:neon-border data-[state=on]:cyber-glow focus:outline-none focus:ring-2 focus:ring-primary/50"
+            aria-label="7日間のトレンドを表示"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 rounded-full opacity-0 group-hover:opacity-100 data-[state=on]:opacity-100 transition-opacity duration-300"></div>
+            <span className="relative z-10 font-medium text-sm group-data-[state=on]:text-transparent group-data-[state=on]:bg-gradient-to-r group-data-[state=on]:from-blue-400 group-data-[state=on]:to-purple-400 group-data-[state=on]:bg-clip-text transition-all duration-300">
+              7日間
+            </span>
+          </ToggleGroupItem>
+          
+          <ToggleGroupItem 
+            value="trend30d" 
+            className="group relative px-4 py-2 rounded-full glass-morphism transition-all duration-300 hover:scale-105 hover:neon-glow data-[state=on]:neon-border data-[state=on]:cyber-glow focus:outline-none focus:ring-2 focus:ring-primary/50"
+            aria-label="30日間のトレンドを表示"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-teal-500/10 rounded-full opacity-0 group-hover:opacity-100 data-[state=on]:opacity-100 transition-opacity duration-300"></div>
+            <span className="relative z-10 font-medium text-sm group-data-[state=on]:text-transparent group-data-[state=on]:bg-gradient-to-r group-data-[state=on]:from-green-400 group-data-[state=on]:to-emerald-400 group-data-[state=on]:bg-clip-text transition-all duration-300">
+              30日間
+            </span>
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
 
       {/* ジャンル・キーワードのトグルボタン */}
