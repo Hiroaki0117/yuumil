@@ -1,142 +1,202 @@
-'use client'
+"use client";
 
-const testimonials = [
-  { 
-    name: 'Kyoko S.', 
-    role: 'Content Creator',
-    text: '朝の通勤中に、トレンドだけさっと見れて便利！時間効率が格段に上がりました。',
-    rating: 5
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Star, TrendingUp, Users, Clock } from "lucide-react";
+
+const stats = [
+  {
+    icon: Users,
+    value: "10K+",
+    label: "Active Users",
+    gradient: "from-purple-500 to-pink-500",
   },
-  { 
-    name: 'Daichi M.', 
-    role: 'Marketing Manager',
-    text: '案件リサーチが半分の時間で終わるようになった。AI分析の精度に驚いています。',
-    rating: 5
+  {
+    icon: TrendingUp,
+    value: "500K+",
+    label: "Videos Analyzed Daily",
+    gradient: "from-blue-500 to-cyan-500",
   },
-  { 
-    name: 'Mina K.', 
-    role: 'Video Editor',
-    text: '好きなジャンルの新着を逃さないのが最高。インスピレーション源として重宝してます。',
-    rating: 5
+  {
+    icon: Star,
+    value: "4.9/5",
+    label: "User Rating",
+    gradient: "from-yellow-500 to-orange-500",
+  },
+  {
+    icon: Clock,
+    value: "24/7",
+    label: "Real-time Updates",
+    gradient: "from-green-500 to-emerald-500",
   },
 ];
 
-const stats = [
-  { value: '10,000+', label: 'Active Users' },
-  { value: '95%', label: 'Satisfaction Rate' },
-  { value: '24/7', label: 'Real-time Updates' },
+const testimonials = [
+  {
+    content: "The AI recommendations are spot on! I've discovered so many amazing channels I would have never found otherwise.",
+    author: "Sarah Chen",
+    role: "Content Creator",
+    avatar: "SC",
+  },
+  {
+    content: "Finally, a platform that understands my interests. The personalized feed saves me hours of searching.",
+    author: "Mike Johnson",
+    role: "Video Editor",
+    avatar: "MJ",
+  },
+  {
+    content: "The trend analysis feature is incredible. It helps me stay ahead of what's popular in my niche.",
+    author: "Emily Rodriguez",
+    role: "Marketing Manager",
+    avatar: "ER",
+  },
 ];
 
 export default function SocialProof() {
-    return (
-        <section className="relative py-32 bg-white overflow-hidden">
-            {/* Premium background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50" />
-                {/* Subtle pattern */}
-                <div className="absolute inset-0 opacity-[0.02]" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill='none' fill-rule='evenodd'%3e%3cg fill='%23000' fill-opacity='1'%3e%3cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e")`
-                }} />
-            </div>
-            
-            <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-                {/* Section header */}
-                <div className="text-center mb-20">
-                    <div className="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 text-sm font-medium rounded-full border border-blue-100 mb-6">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
-                        Customer Stories
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+
+  return (
+    <section className="py-32 bg-white overflow-hidden">
+      <div className="container mx-auto px-4">
+        <motion.div
+          ref={containerRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-4"
+          >
+            <TrendingUp className="w-4 h-4" />
+            <span>Trusted by thousands</span>
+          </motion.div>
+          
+          <h2 className="text-5xl md:text-6xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              Join the community
+            </span>
+          </h2>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            See why content creators and viewers love Yuumil
+          </p>
+        </motion.div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-20">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2 + index * 0.1 }}
+            >
+              <motion.div
+                whileHover={{ y: -5 }}
+                className="relative p-6 rounded-3xl bg-gradient-to-br from-slate-50 to-white border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                {/* Icon */}
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                  className={`inline-flex p-3 rounded-2xl bg-gradient-to-br ${stat.gradient} mb-4`}
+                >
+                  <stat.icon className="w-6 h-6 text-white" />
+                </motion.div>
+                
+                {/* Value */}
+                <motion.div
+                  initial={{ scale: 0.5 }}
+                  animate={isInView ? { scale: 1 } : {}}
+                  transition={{ delay: 0.4 + index * 0.1, type: "spring" }}
+                  className="text-3xl font-bold text-slate-900 mb-1"
+                >
+                  {stat.value}
+                </motion.div>
+                
+                {/* Label */}
+                <div className="text-slate-600">
+                  {stat.label}
+                </div>
+                
+                {/* Decorative Element */}
+                <div className={`absolute -top-10 -right-10 w-20 h-20 rounded-full bg-gradient-to-br ${stat.gradient} opacity-10 blur-2xl group-hover:opacity-20 transition-opacity`} />
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Testimonials */}
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={testimonial.author}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.6 + index * 0.1 }}
+            >
+              <motion.div
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="relative h-full p-8 rounded-3xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                {/* Quote Mark */}
+                <div className="absolute -top-4 -left-4 text-6xl text-purple-200 font-serif">
+                  "
+                </div>
+                
+                {/* Content */}
+                <p className="text-slate-700 mb-6 leading-relaxed relative z-10">
+                  {testimonial.content}
+                </p>
+                
+                {/* Author */}
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-slate-900">
+                      {testimonial.author}
                     </div>
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 tracking-tight">
-                        ユーザーが語る
-                        <span className="text-blue-600 block">リアルな体験</span>
-                    </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        実際にYuumilを使用している方々からの
-                        <br className="hidden sm:block" />
-                        生の声をお聞きください
-                    </p>
-                </div>
-                
-                {/* Stats section */}
-                <div className="grid md:grid-cols-3 gap-8 mb-20">
-                    {stats.map((stat, index) => (
-                        <div key={index} className="text-center group">
-                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100/50 group-hover:shadow-xl transition-all duration-300">
-                                <div className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">
-                                    {stat.value}
-                                </div>
-                                <div className="text-gray-600 font-medium">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                
-                {/* Testimonials grid */}
-                <div className="grid lg:grid-cols-3 gap-8">
-                    {testimonials.map((testimonial, index) => (
-                        <div key={index} className="group">
-                            <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-100/50 group-hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full">
-                                {/* Gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                
-                                <div className="relative z-10">
-                                    {/* Rating stars */}
-                                    <div className="flex gap-1 mb-6">
-                                        {[...Array(testimonial.rating)].map((_, i) => (
-                                            <div key={i} className="w-5 h-5 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center">
-                                                <span className="text-white text-xs">★</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    
-                                    {/* Quote */}
-                                    <blockquote className="text-gray-700 text-lg leading-relaxed mb-8">
-                                        "{testimonial.text}"
-                                    </blockquote>
-                                    
-                                    {/* Author info */}
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                                            <span className="text-white font-bold text-lg">
-                                                {testimonial.name.charAt(0)}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold text-gray-900">
-                                                {testimonial.name}
-                                            </div>
-                                            <div className="text-gray-500 text-sm">
-                                                {testimonial.role}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* Decorative quote mark */}
-                                <div className="absolute top-6 right-6 text-6xl text-blue-100 font-serif leading-none">
-                                    "
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                
-                {/* Trust badges */}
-                <div className="text-center mt-20">
-                    <p className="text-gray-500 mb-8 text-lg">
-                        信頼いただいている企業・組織
-                    </p>
-                    <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-                        {['Tech Corp', 'Media Lab', 'Creative Studio', 'Digital Agency'].map((company, index) => (
-                            <div key={index} className="px-6 py-3 bg-gray-100 rounded-lg text-gray-600 font-medium">
-                                {company}
-                            </div>
-                        ))}
+                    <div className="text-sm text-slate-600">
+                      {testimonial.role}
                     </div>
+                  </div>
                 </div>
-            </div>
-        </section>
-    );
+                
+                {/* Star Rating */}
+                <div className="absolute top-8 right-8 flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1 }}
+          className="mt-20 text-center"
+        >
+          <p className="text-sm text-slate-600 mb-6">Trusted by leading content platforms</p>
+          <div className="flex justify-center items-center gap-8 flex-wrap">
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="w-32 h-12 rounded-lg bg-slate-100 animate-pulse"
+              />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }
