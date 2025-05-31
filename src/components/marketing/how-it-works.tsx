@@ -1,130 +1,187 @@
-import Image from 'next/image';
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { UserPlus, Settings, Sparkles, ChevronRight } from "lucide-react";
 
 const steps = [
-  { 
-    num: 1, 
-    label: '好みを選択', 
-    img: '/images/step1.svg',
-    description: 'ジャンルやキーワードを選んでパーソナライズ'
+  {
+    number: "01",
+    title: "Sign Up in Seconds",
+    description: "Create your account with just one click using social login",
+    icon: UserPlus,
+    color: "from-purple-500 to-pink-500",
+    image: "/images/step1.svg",
   },
-  { 
-    num: 2, 
-    label: '24h 自動収集', 
-    img: '/images/step2.svg',
-    description: '最新の動画を自動で収集・分析'
+  {
+    number: "02",
+    title: "Set Your Preferences",
+    description: "Choose your favorite genres and topics to personalize your feed",
+    icon: Settings,
+    color: "from-blue-500 to-cyan-500",
+    image: "/images/step2.svg",
   },
-  { 
-    num: 3, 
-    label: 'フィードで確認', 
-    img: '/images/step3.svg',
-    description: 'あなた専用のフィードで視聴'
+  {
+    number: "03",
+    title: "Discover Amazing Content",
+    description: "Get AI-powered recommendations tailored just for you",
+    icon: Sparkles,
+    color: "from-green-500 to-emerald-500",
+    image: "/images/step3.svg",
   },
 ];
 
 export default function HowItWorks() {
-    return(
-        <section className="relative py-32 bg-gray-50 overflow-hidden">
-            {/* Premium background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white" />
-                {/* Subtle luxury pattern */}
-                <div className="absolute inset-0 opacity-[0.02]" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill-rule='evenodd'%3e%3cg fill='%23000' fill-opacity='1'%3e%3cpath d='M0 0h50v50H0V0zm50 50h50v50H50V50z' opacity='0.5'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e")`
-                }} />
-            </div>
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  const [activeStep, setActiveStep] = useState(0);
+
+  return (
+    <section className="py-32 bg-gradient-to-b from-slate-50 to-white overflow-hidden">
+      <div className="container mx-auto px-4">
+        <motion.div
+          ref={containerRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4"
+          >
+            <ChevronRight className="w-4 h-4" />
+            <span>Simple Process</span>
+          </motion.div>
+          
+          <h2 className="text-5xl md:text-6xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              How it works
+            </span>
+          </h2>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            Start discovering personalized content in just three simple steps
+          </p>
+        </motion.div>
+
+        <div className="max-w-7xl mx-auto">
+          {/* Desktop View */}
+          <div className="hidden lg:grid lg:grid-cols-3 gap-8 relative">
+            {/* Connection Line */}
+            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-200 via-blue-200 to-green-200 -translate-y-1/2 z-0" />
             
-            <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-                {/* Premium section header */}
-                <div className="text-center mb-20">
-                    <div className="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 text-sm font-medium rounded-full border border-blue-100 mb-6">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
-                        How It Works
-                    </div>
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 tracking-tight">
-                        シンプルな
-                        <span className="text-blue-600 block">3ステップ</span>
-                    </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        直感的なインターフェースで、数分で設定完了。
-                        <br className="hidden sm:block" />
-                        すぐにパーソナライズされた動画体験を開始できます。
+            {steps.map((step, index) => (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.2 + index * 0.1 }}
+                className="relative z-10"
+                onMouseEnter={() => setActiveStep(index)}
+              >
+                <motion.div
+                  whileHover={{ y: -10 }}
+                  className={`relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200 ${
+                    activeStep === index ? "ring-2 ring-purple-500" : ""
+                  }`}
+                >
+                  {/* Step Number */}
+                  <div className={`absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white font-bold text-xl shadow-lg`}>
+                    {step.number}
+                  </div>
+                  
+                  {/* Icon */}
+                  <motion.div
+                    animate={{ rotate: activeStep === index ? 360 : 0 }}
+                    transition={{ duration: 0.6 }}
+                    className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${step.color} mb-6`}
+                  >
+                    <step.icon className="w-8 h-8 text-white" />
+                  </motion.div>
+                  
+                  {/* Content */}
+                  <h3 className="text-2xl font-bold mb-3 text-slate-900">
+                    {step.title}
+                  </h3>
+                  <p className="text-slate-600 mb-6">
+                    {step.description}
+                  </p>
+                  
+                  {/* Visual */}
+                  <div className="aspect-video rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
+                    <motion.div
+                      animate={{ scale: activeStep === index ? 1.1 : 1 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-full h-full flex items-center justify-center"
+                    >
+                      <div className="text-slate-400 text-sm">
+                        Visual Preview
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mobile View */}
+          <div className="lg:hidden space-y-8">
+            {steps.map((step, index) => (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 0.2 + index * 0.1 }}
+                className="relative"
+              >
+                <div className="flex gap-6">
+                  {/* Timeline */}
+                  <div className="flex flex-col items-center">
+                    <motion.div
+                      whileHover={{ scale: 1.2 }}
+                      className={`w-12 h-12 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white font-bold shadow-lg`}
+                    >
+                      {step.number}
+                    </motion.div>
+                    {index < steps.length - 1 && (
+                      <div className="w-0.5 h-24 bg-gradient-to-b from-purple-200 to-transparent mt-2" />
+                    )}
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="flex-1 pb-8">
+                    <h3 className="text-xl font-bold mb-2 text-slate-900">
+                      {step.title}
+                    </h3>
+                    <p className="text-slate-600">
+                      {step.description}
                     </p>
+                  </div>
                 </div>
-                
-                {/* Bento-style steps grid */}
-                <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-                    {steps.map((step, index) => (
-                        <div key={step.num} className="relative group">
-                            {/* Connection flow (desktop only) */}
-                            {index < steps.length - 1 && (
-                                <div className="hidden lg:block absolute top-20 left-full w-12 h-px bg-gradient-to-r from-blue-300 to-purple-300 z-0">
-                                    <div className="absolute right-0 top-[-2px] w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                                    <div className="absolute right-2 top-[-1px] w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
-                                </div>
-                            )}
-                            
-                            {/* Premium step card */}
-                            <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-10 shadow-xl border border-gray-100/50 group-hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                                {/* Luxury gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                
-                                {/* Step content */}
-                                <div className="relative z-10 text-center">
-                                    {/* Premium step number */}
-                                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold text-xl rounded-2xl mb-8 group-hover:scale-110 transition-transform duration-300">
-                                        {step.num}
-                                    </div>
-                                    
-                                    {/* Step image container */}
-                                    <div className="relative w-40 h-40 mx-auto mb-8 group-hover:scale-105 transition-transform duration-300">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl opacity-20"></div>
-                                        <Image
-                                            src={step.img}
-                                            alt={`Step ${step.num}: ${step.label}`}
-                                            fill
-                                            className="object-contain p-6"
-                                            priority={index === 0}
-                                        />
-                                    </div>
-                                    
-                                    {/* Step title */}
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                                        {step.label}
-                                    </h3>
-                                    
-                                    {/* Step description */}
-                                    <p className="text-gray-600 text-lg leading-relaxed">
-                                        {step.description}
-                                    </p>
-                                    
-                                    {/* Premium accent */}
-                                    <div className="mt-6 h-1 w-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto group-hover:w-24 transition-all duration-300"></div>
-                                </div>
-                                
-                                {/* Floating decorative elements */}
-                                <div className="absolute top-6 right-6 w-3 h-3 bg-blue-400 rounded-full opacity-20 group-hover:opacity-60 transition-opacity duration-300"></div>
-                                <div className="absolute bottom-6 left-6 w-2 h-2 bg-purple-400 rounded-full opacity-20 group-hover:opacity-60 transition-opacity duration-300"></div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                
-                {/* Premium CTA section */}
-                <div className="text-center mt-20">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-gray-100/50 max-w-2xl mx-auto">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                            準備はできましたか？
-                        </h3>
-                        <p className="text-gray-600 mb-8 text-lg">
-                            3分で設定完了。今すぐパーソナライズされた動画体験を始めましょう。
-                        </p>
-                        <button className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <span className="relative z-10">無料で始める</span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+              </motion.div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.8 }}
+            className="text-center mt-16"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all"
+            >
+              Start Your Journey
+              <ChevronRight className="w-5 h-5" />
+            </motion.button>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
 }
