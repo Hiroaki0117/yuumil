@@ -8,47 +8,47 @@ const stats = [
   {
     icon: Users,
     value: "10K+",
-    label: "Active Users",
+    label: "アクティブユーザー",
     gradient: "from-purple-500 to-pink-500",
   },
   {
     icon: TrendingUp,
     value: "500K+",
-    label: "Videos Analyzed Daily",
+    label: "毎日分析される動画",
     gradient: "from-blue-500 to-cyan-500",
   },
   {
     icon: Star,
     value: "4.9/5",
-    label: "User Rating",
+    label: "ユーザー評価",
     gradient: "from-yellow-500 to-orange-500",
   },
   {
     icon: Clock,
     value: "24/7",
-    label: "Real-time Updates",
+    label: "リアルタイム更新",
     gradient: "from-green-500 to-emerald-500",
   },
 ];
 
 const testimonials = [
   {
-    content: "The AI recommendations are spot on! I've discovered so many amazing channels I would have never found otherwise.",
-    author: "Sarah Chen",
-    role: "Content Creator",
-    avatar: "SC",
+    content: "AIレコメンドが的確すぎる！普通なら見つけられなかった素晴らしいチャンネルをたくさん発見できました。",
+    author: "佐藤 美咲",
+    role: "コンテンツクリエイター",
+    avatar: "佐藤",
   },
   {
-    content: "Finally, a platform that understands my interests. The personalized feed saves me hours of searching.",
-    author: "Mike Johnson",
-    role: "Video Editor",
-    avatar: "MJ",
+    content: "やっと私の興味を理解してくれるプラットフォームに出会えました。パーソナライズされたフィードで検索時間が大幅に短縮されました。",
+    author: "田中 健太",
+    role: "ビデオエディター",
+    avatar: "田中",
   },
   {
-    content: "The trend analysis feature is incredible. It helps me stay ahead of what's popular in my niche.",
-    author: "Emily Rodriguez",
-    role: "Marketing Manager",
-    avatar: "ER",
+    content: "トレンド分析機能が素晴らしい！自分のニッチで何が人気なのかを先取りできるようになりました。",
+    author: "山田 愛子",
+    role: "マーケティングマネージャー",
+    avatar: "山田",
   },
 ];
 
@@ -73,16 +73,16 @@ export default function SocialProof() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-4"
           >
             <TrendingUp className="w-4 h-4" />
-            <span>Trusted by thousands</span>
+            <span>数千人に信頼される</span>
           </motion.div>
           
           <h2 className="text-5xl md:text-6xl font-bold mb-4">
             <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-              Join the community
+              コミュニティに参加
             </span>
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            See why content creators and viewers love Yuumil
+            なぜコンテンツクリエイターと視聴者がYuumilを愛するのか
           </p>
         </motion.div>
 
@@ -186,13 +186,18 @@ export default function SocialProof() {
           transition={{ delay: 1 }}
           className="mt-20 text-center"
         >
-          <p className="text-sm text-slate-600 mb-6">Trusted by leading content platforms</p>
+          <p className="text-sm text-slate-600 mb-6">大手コンテンツプラットフォームに信頼される</p>
           <div className="flex justify-center items-center gap-8 flex-wrap">
             {[...Array(4)].map((_, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="w-32 h-12 rounded-lg bg-slate-100 animate-pulse"
-              />
+                whileHover={{ scale: 1.05 }}
+                className="relative w-32 h-12"
+              >
+                <div className="w-full h-full rounded-lg bg-gradient-to-r from-slate-100 to-slate-200 flex items-center justify-center">
+                  <span className="text-slate-400 text-xs font-medium">Partner {i + 1}</span>
+                </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
