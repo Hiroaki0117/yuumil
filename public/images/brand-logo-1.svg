@@ -1,0 +1,12 @@
+<svg width="160" height="60" viewBox="0 0 160 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="160" height="60" rx="10" fill="#F3F4F6"/>
+  
+  <!-- Placeholder Brand Design -->
+  <g opacity="0.6">
+    <circle cx="40" cy="30" r="15" fill="#9CA3AF"/>
+    <path d="M 60 20 L 120 20 L 120 25 L 60 25 Z" fill="#9CA3AF"/>
+    <path d="M 60 35 L 100 35 L 100 40 L 60 40 Z" fill="#9CA3AF"/>
+  </g>
+  
+  <text x="80" y="35" text-anchor="middle" fill="#6B7280" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Partner Brand</text>
+</svg>

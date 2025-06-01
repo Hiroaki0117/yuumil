@@ -12,7 +12,7 @@ export default function Hero() {
   const [currentWord, setCurrentWord] = useState(0);
   const { scrollYProgress } = useScroll();
   
-  const words = ["Discover", "Explore", "Experience", "Transform"];
+  const words = ["発見する", "探索する", "体験する", "変革する"];
   
   const scaleProgress = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
   const scale = useSpring(scaleProgress, { stiffness: 100, damping: 20 });
@@ -102,7 +102,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-8"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Powered by AI Technology</span>
+              <span>最先端AI技術搭載</span>
             </motion.div>
             
             {/* Main Heading */}
@@ -120,7 +120,7 @@ export default function Hero() {
                 </motion.span>
               </AnimatePresence>
               <br />
-              <span className="text-slate-900">Your Video Universe</span>
+              <span className="text-slate-900">あなたの動画宇宙</span>
             </h1>
             
             {/* Subtitle */}
@@ -130,8 +130,8 @@ export default function Hero() {
               transition={{ delay: 0.4 }}
               className="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto"
             >
-              Experience personalized video recommendations powered by cutting-edge AI. 
-              Discover content that truly resonates with your interests.
+              最先端AIが生み出す、あなただけの動画体験。
+              心に響くコンテンツとの出会いがここから始まります。
             </motion.p>
             
             {/* CTA Buttons */}
@@ -149,7 +149,7 @@ export default function Hero() {
                     className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl shadow-xl overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      Get Started Free
+                      無料で始める
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </span>
                     <motion.div
@@ -169,7 +169,7 @@ export default function Hero() {
                     className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl shadow-xl overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      Go to Dashboard
+                      ダッシュボードへ
                       <Zap className="w-5 h-5" />
                     </span>
                   </motion.button>
@@ -182,7 +182,7 @@ export default function Hero() {
                 className="group px-8 py-4 bg-white text-slate-900 font-semibold rounded-2xl shadow-lg border border-slate-200 hover:border-purple-300 transition-colors flex items-center gap-2 justify-center"
               >
                 <Play className="w-5 h-5" />
-                Watch Demo
+                デモを見る
               </motion.button>
             </motion.div>
           </motion.div>

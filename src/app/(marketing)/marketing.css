@@ -3,15 +3,23 @@
 .marketing-layout {
   position: relative;
   z-index: 1000;
-  background: white !important;
-  color: #111827 !important;
   min-height: 100vh;
 }
 
 .marketing-content {
+  min-height: 100vh;
+}
+
+/* Hero Section - Dark Background Override */
+.marketing-content > section:first-child {
+  background: black !important;
+  color: white !important;
+}
+
+/* Other sections remain with light background */
+.marketing-content > section:not(:first-child):not(:last-child) {
   background: white !important;
   color: #111827 !important;
-  min-height: 100vh;
 }
 
 /* ルートレイアウトのダークテーマ要素を隠す */
@@ -58,4 +66,61 @@ body:has(.marketing-layout) {
 .marketing-layout .cl-card {
   background: white !important;
   color: #111827 !important;
+}
+
+/* Add perspective for 3D effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Add transform-gpu for better performance */
+.transform-gpu {
+  transform: translateZ(0);
+}
+
+/* Custom animation classes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
 } 

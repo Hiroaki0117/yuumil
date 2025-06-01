@@ -57,21 +57,21 @@ export default function FinalCta() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-md text-white text-sm font-medium mb-8"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Start your journey today</span>
+              <span>今日から旅を始めよう</span>
             </motion.div>
             
             {/* Heading */}
             <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              Ready to discover
+              素晴らしいコンテンツを
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
-                amazing content?
+                発見する準備は？
               </span>
             </h2>
             
             {/* Subheading */}
             <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
-              Join thousands of users who have transformed their video discovery experience
+              動画発見体験を変革した数千人のユーザーの仲間入りをしよう
             </p>
             
             {/* CTA Buttons */}
@@ -90,7 +90,7 @@ export default function FinalCta() {
                     className="group relative px-8 py-4 bg-white text-purple-600 font-semibold rounded-2xl shadow-xl overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      Start Free Trial
+                      無料トライアルを開始
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </span>
                     <motion.div
@@ -110,7 +110,7 @@ export default function FinalCta() {
                     className="group relative px-8 py-4 bg-white text-purple-600 font-semibold rounded-2xl shadow-xl overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      Go to Dashboard
+                      ダッシュボードへ
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </span>
                     <motion.div
@@ -128,7 +128,7 @@ export default function FinalCta() {
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-4 bg-transparent text-white font-semibold rounded-2xl border-2 border-white/30 backdrop-blur-md hover:bg-white/10 transition-colors"
               >
-                Learn More
+                詳しく見る
               </motion.button>
             </motion.div>
             
@@ -142,11 +142,11 @@ export default function FinalCta() {
             >
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span>No credit card required</span>
+                <span>クレジットカード不要</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span>Cancel anytime</span>
+                <span>いつでもキャンセル可能</span>
               </div>
             </motion.div>
           </motion.div>

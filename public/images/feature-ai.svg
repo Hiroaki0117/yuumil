@@ -1,0 +1,72 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" rx="20" fill="url(#gradient1)"/>
+  
+  <!-- Neural Network Visualization -->
+  <g opacity="0.9">
+    <!-- Input Layer -->
+    <circle cx="80" cy="80" r="15" fill="#9333EA"/>
+    <circle cx="80" cy="150" r="15" fill="#9333EA"/>
+    <circle cx="80" cy="220" r="15" fill="#9333EA"/>
+    
+    <!-- Hidden Layer 1 -->
+    <circle cx="180" cy="60" r="18" fill="#A855F7"/>
+    <circle cx="180" cy="120" r="18" fill="#A855F7"/>
+    <circle cx="180" cy="180" r="18" fill="#A855F7"/>
+    <circle cx="180" cy="240" r="18" fill="#A855F7"/>
+    
+    <!-- Hidden Layer 2 -->
+    <circle cx="280" cy="90" r="20" fill="#C084FC"/>
+    <circle cx="280" cy="150" r="20" fill="#C084FC"/>
+    <circle cx="280" cy="210" r="20" fill="#C084FC"/>
+    
+    <!-- Output Layer -->
+    <circle cx="350" cy="150" r="25" fill="#E9D5FF">
+      <animate attributeName="r" values="25;30;25" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Connections -->
+    <g stroke="#C084FC" stroke-width="2" opacity="0.4">
+      <!-- Input to Hidden 1 -->
+      <line x1="95" y1="80" x2="162" y2="60"/>
+      <line x1="95" y1="80" x2="162" y2="120"/>
+      <line x1="95" y1="150" x2="162" y2="120"/>
+      <line x1="95" y1="150" x2="162" y2="180"/>
+      <line x1="95" y1="220" x2="162" y2="180"/>
+      <line x1="95" y1="220" x2="162" y2="240"/>
+      
+      <!-- Hidden 1 to Hidden 2 -->
+      <line x1="198" y1="60" x2="260" y2="90"/>
+      <line x1="198" y1="120" x2="260" y2="150"/>
+      <line x1="198" y1="180" x2="260" y2="210"/>
+      <line x1="198" y1="240" x2="260" y2="210"/>
+      
+      <!-- Hidden 2 to Output -->
+      <line x1="300" y1="90" x2="325" y2="150"/>
+      <line x1="300" y1="150" x2="325" y2="150"/>
+      <line x1="300" y1="210" x2="325" y2="150"/>
+    </g>
+  </g>
+  
+  <!-- Sparkles -->
+  <g>
+    <path d="M120 30 L125 35 L130 30 L125 25 Z" fill="#FDE047" opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" from="0 125 30" to="360 125 30" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M320 50 L323 53 L326 50 L323 47 Z" fill="#FDE047" opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" from="0 323 50" to="360 323 50" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M250 250 L254 254 L258 250 L254 246 Z" fill="#FDE047" opacity="0.7">
+      <animateTransform attributeName="transform" type="rotate" from="0 254 250" to="360 254 250" dur="4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- AI Text -->
+  <text x="200" y="40" text-anchor="middle" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="24" font-weight="bold" opacity="0.9">AI Discovery</text>
+  
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9333EA;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#EC4899;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+</svg>
