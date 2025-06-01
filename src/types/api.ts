@@ -49,6 +49,9 @@ export type Tag = {
   label: string;
 };
 
+// Pref is an alias for Tag (for backward compatibility)
+export type Pref = Tag;
+
 // ジャンル関連
 export interface Genre {
   id: string;
