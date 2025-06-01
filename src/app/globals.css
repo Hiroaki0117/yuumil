@@ -321,6 +321,10 @@
     background: linear-gradient(var(--card), var(--card)) padding-box,
                 linear-gradient(135deg, #8B5CF6, #06B6D4, #10B981) border-box;
   }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
 }
 
 @keyframes float {
