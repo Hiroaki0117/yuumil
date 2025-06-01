@@ -7,24 +7,24 @@ import { UserPlus, Settings, Sparkles, ChevronRight } from "lucide-react";
 const steps = [
   {
     number: "01",
-    title: "Sign Up in Seconds",
-    description: "Create your account with just one click using social login",
+    title: "数秒でサインアップ",
+    description: "ソーシャルログインでワンクリックでアカウント作成",
     icon: UserPlus,
     color: "from-purple-500 to-pink-500",
     image: "/images/step1.svg",
   },
   {
     number: "02",
-    title: "Set Your Preferences",
-    description: "Choose your favorite genres and topics to personalize your feed",
+    title: "好みを設定",
+    description: "お気に入りのジャンルやトピックを選んでフィードをパーソナライズ",
     icon: Settings,
     color: "from-blue-500 to-cyan-500",
     image: "/images/step2.svg",
   },
   {
     number: "03",
-    title: "Discover Amazing Content",
-    description: "Get AI-powered recommendations tailored just for you",
+    title: "素晴らしいコンテンツを発見",
+    description: "あなただけのAI駆動レコメンデーションを体験",
     icon: Sparkles,
     color: "from-green-500 to-emerald-500",
     image: "/images/step3.svg",
@@ -53,16 +53,16 @@ export default function HowItWorks() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4"
           >
             <ChevronRight className="w-4 h-4" />
-            <span>Simple Process</span>
+            <span>シンプルなプロセス</span>
           </motion.div>
           
           <h2 className="text-5xl md:text-6xl font-bold mb-4">
             <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-              How it works
+              使い方
             </span>
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Start discovering personalized content in just three simple steps
+            たった3つのステップでパーソナライズされたコンテンツを発見
           </p>
         </motion.div>
 
@@ -117,7 +117,7 @@ export default function HowItWorks() {
                       className="w-full h-full flex items-center justify-center"
                     >
                       <div className="text-slate-400 text-sm">
-                        Visual Preview
+                        ビジュアルプレビュー
                       </div>
                     </motion.div>
                   </div>
@@ -176,7 +176,7 @@ export default function HowItWorks() {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all"
             >
-              Start Your Journey
+              旅を始める
               <ChevronRight className="w-5 h-5" />
             </motion.button>
           </motion.div>
