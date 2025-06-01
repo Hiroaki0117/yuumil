@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { auth } from '@clerk/nextjs/server';
 import { listUserTagsByClerkId } from '@/dal/users';
-import DashboardClient from '@/components/features/dashboard/dashboard-client';
+import DashboardClientModern from '@/components/features/dashboard/dashboard-client-modern';
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Metadata } from 'next';
 
@@ -93,7 +93,7 @@ export default async function DashboardPage() {
       {/* メインコンテンツ */}
       <div className="relative z-10">
         <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardClient initialPrefs={tags} />
+          <DashboardClientModern initialPrefs={tags} />
         </Suspense>
       </div>
     </div>
