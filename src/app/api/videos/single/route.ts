@@ -14,5 +14,9 @@ export async function GET(req: Request) {
     .single();
   
   if (error) return NextResponse.json({ error: error.message }, { status: 404 });
-  return NextResponse.json(data);
+  return NextResponse.json(data, {
+    headers: {
+      'Cache-Control': 's-maxage=86400, stale-while-revalidate=43200', // Cache for 24 hours
+    },
+  });
 }

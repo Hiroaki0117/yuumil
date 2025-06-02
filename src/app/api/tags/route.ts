@@ -9,5 +9,9 @@ export async function GET() {
   if (!clerkId) return NextResponse.json([], { status: 401 });
 
   const tags = await listUserTagsByClerkId(clerkId);
-  return NextResponse.json(tags);
+  return NextResponse.json(tags, {
+    headers: {
+      'Cache-Control': 's-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes
+    },
+  });
 }
