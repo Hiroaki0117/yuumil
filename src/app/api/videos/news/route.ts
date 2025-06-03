@@ -79,6 +79,10 @@ export async function GET(req: Request) {
                 total_views: video.total_views
             })),
             nextCursor: null // EdgeFunctionは無限スクロール未対応のため
+        }, {
+            headers: {
+                'Cache-Control': 's-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour
+            },
         });
 
     } catch (error) {
