@@ -42,16 +42,16 @@ export function HeroEnhanced() {
         <div 
           className="absolute inset-0 opacity-30"
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.3), transparent 50%)`,
+            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, hsl(var(--color-neon-blue) / 0.3), transparent 50%)`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-[hsl(var(--color-neon-purple)/0.2)] to-background" />
         
         {/* Animated particles */}
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-purple-400/40 rounded-full blur-sm"
+            className="absolute w-2 h-2 bg-[hsl(var(--color-neon-purple)/0.4)] rounded-full blur-sm"
             initial={{ x: `${(i * 5) % 100}%`, y: -10 }}
             animate={{
               y: "110vh",
@@ -76,15 +76,15 @@ export function HeroEnhanced() {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-wrap gap-3 justify-center mb-8"
         >
-          <div className="flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 text-purple-300 rounded-full text-sm font-medium backdrop-blur-sm">
+          <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(var(--color-neon-purple)/0.1)] border border-[hsl(var(--color-neon-purple)/0.2)] text-neon-purple rounded-full text-sm font-medium backdrop-blur-sm">
             <Sparkles className="w-4 h-4" />
             AI駆動のレコメンド
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-300 rounded-full text-sm font-medium backdrop-blur-sm">
+          <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(var(--color-neon-blue)/0.1)] border border-[hsl(var(--color-neon-blue)/0.2)] text-neon-blue rounded-full text-sm font-medium backdrop-blur-sm">
             <Zap className="w-4 h-4" />
             リアルタイム更新
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-full text-sm font-medium backdrop-blur-sm">
+          <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(var(--color-cyber-green)/0.1)] border border-[hsl(var(--color-cyber-green)/0.2)] text-cyber-green rounded-full text-sm font-medium backdrop-blur-sm">
             <Globe className="w-4 h-4" />
             グローバルトレンド
           </div>
@@ -97,7 +97,7 @@ export function HeroEnhanced() {
           transition={{ delay: 0.2 }}
           className="text-6xl md:text-8xl font-bold text-center mb-6"
         >
-          <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-neon-purple via-neon-pink to-neon-blue bg-clip-text text-transparent">
             動画を
           </span>
           <motion.span
@@ -105,7 +105,7 @@ export function HeroEnhanced() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="inline-block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+            className="inline-block bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent"
           >
             {words[currentWord]}
           </motion.span>
@@ -116,7 +116,7 @@ export function HeroEnhanced() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto mb-12"
+          className="text-xl md:text-2xl text-muted-foreground text-center max-w-3xl mx-auto mb-12"
         >
           AIが、あなたの興味に基づいて世界中から最適な動画をキュレート。
           <br />
@@ -131,13 +131,13 @@ export function HeroEnhanced() {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
         >
           <SignInButton mode="modal">
-            <Button size="lg" className="group relative overflow-hidden px-8 py-6 text-lg bg-gradient-to-r from-purple-600 to-blue-600 border-0 text-white hover:from-purple-700 hover:to-blue-700">
+            <Button size="lg" className="group relative overflow-hidden px-8 py-6 text-lg bg-gradient-to-r from-neon-purple to-neon-blue border-0 text-white hover:opacity-90">
               <span className="relative z-10 flex items-center gap-2">
                 今すぐ始める
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-purple-700 to-blue-700"
+                className="absolute inset-0 bg-gradient-to-r from-neon-purple to-neon-blue opacity-80"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: 0 }}
                 transition={{ duration: 0.3 }}
@@ -148,7 +148,7 @@ export function HeroEnhanced() {
           <Button 
             variant="outline" 
             size="lg" 
-            className="group px-8 py-6 text-lg border-2 border-gray-600 text-gray-300 hover:border-purple-500 hover:text-white bg-white/5 backdrop-blur-sm"
+            className="group px-8 py-6 text-lg border-2 border-muted text-muted-foreground hover:border-neon-purple hover:text-foreground bg-card/5 backdrop-blur-sm"
           >
             <Play className="w-5 h-5 mr-2" />
             デモを見る
@@ -156,7 +156,7 @@ export function HeroEnhanced() {
               {[...Array(3)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="w-1 h-1 bg-purple-400 rounded-full"
+                  className="w-1 h-1 bg-neon-purple rounded-full"
                   animate={{ scale: [1, 1.5, 1] }}
                   transition={{ delay: i * 0.2, repeat: Infinity, duration: 1.5 }}
                 />
@@ -187,12 +187,12 @@ export function HeroEnhanced() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.6 + index * 0.1, type: "spring" }}
-                className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-purple-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm"
+                className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-[hsl(var(--color-neon-purple)/0.2)] to-[hsl(var(--color-neon-blue)/0.2)] border border-[hsl(var(--color-neon-purple)/0.2)] rounded-2xl flex items-center justify-center backdrop-blur-sm"
               >
-                <stat.icon className="w-8 h-8 text-purple-400" />
+                <stat.icon className="w-8 h-8 text-neon-purple" />
               </motion.div>
-              <div className="text-3xl font-bold text-white">{stat.value}</div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+              <div className="text-3xl font-bold text-foreground">{stat.value}</div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -205,16 +205,16 @@ export function HeroEnhanced() {
         transition={{ delay: 0.8 }}
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-6xl px-4"
       >
-        <div className="relative rounded-t-3xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 p-1 shadow-2xl backdrop-blur-sm">
-          <div className="relative rounded-t-3xl bg-slate-900/80 overflow-hidden backdrop-blur-sm">
-            <div className="aspect-video bg-gradient-to-br from-slate-900 to-purple-900/30 relative">
+        <div className="relative rounded-t-3xl bg-gradient-to-br from-[hsl(var(--color-neon-purple)/0.5)] to-[hsl(var(--color-neon-blue)/0.5)] p-1 shadow-2xl backdrop-blur-sm">
+          <div className="relative rounded-t-3xl bg-background/80 overflow-hidden backdrop-blur-sm">
+            <div className="aspect-video bg-gradient-to-br from-background to-[hsl(var(--color-neon-purple)/0.3)] relative">
               {/* Placeholder for video preview */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
-                  className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center shadow-2xl cursor-pointer group"
+                  className="w-20 h-20 bg-gradient-to-br from-neon-purple to-neon-blue rounded-full flex items-center justify-center shadow-2xl cursor-pointer group"
                 >
-                  <Play className="w-8 h-8 text-white ml-1 group-hover:scale-110 transition-transform" />
+                  <Play className="w-8 h-8 text-primary-foreground ml-1 group-hover:scale-110 transition-transform" />
                 </motion.div>
               </div>
               
@@ -223,13 +223,13 @@ export function HeroEnhanced() {
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 1 }}
-                className="absolute top-4 left-4 bg-slate-900/80 border border-purple-500/20 rounded-xl shadow-lg p-3 backdrop-blur-sm"
+                className="absolute top-4 left-4 bg-background/80 border border-[hsl(var(--color-neon-purple)/0.2)] rounded-xl shadow-lg p-3 backdrop-blur-sm"
               >
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full" />
+                  <div className="w-8 h-8 bg-gradient-to-br from-neon-blue to-neon-purple rounded-full" />
                   <div>
-                    <div className="text-sm font-semibold text-white">トレンド動画</div>
-                    <div className="text-xs text-gray-400">視聴中...</div>
+                    <div className="text-sm font-semibold text-foreground">トレンド動画</div>
+                    <div className="text-xs text-muted-foreground">視聴中...</div>
                   </div>
                 </div>
               </motion.div>
@@ -238,11 +238,11 @@ export function HeroEnhanced() {
                 initial={{ x: 100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 1.2 }}
-                className="absolute bottom-4 right-4 bg-slate-900/80 border border-purple-500/20 rounded-xl shadow-lg p-3 backdrop-blur-sm"
+                className="absolute bottom-4 right-4 bg-background/80 border border-[hsl(var(--color-neon-purple)/0.2)] rounded-xl shadow-lg p-3 backdrop-blur-sm"
               >
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-purple-400" />
-                  <span className="text-sm font-semibold text-white">あなたへのおすすめ</span>
+                  <Sparkles className="w-5 h-5 text-neon-purple" />
+                  <span className="text-sm font-semibold text-foreground">あなたへのおすすめ</span>
                 </div>
               </motion.div>
             </div>

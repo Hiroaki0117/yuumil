@@ -24,5 +24,9 @@ export async function GET(req: Request) {
         prefType: prefType as PerfType, 
         prefId});
     
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+        headers: {
+            'Cache-Control': 's-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour
+        },
+    });
 }

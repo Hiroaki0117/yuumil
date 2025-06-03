@@ -2,9 +2,13 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      // 本番環境なら your-domain.com などを追加
-      allowedOrigins:       ['localhost:3000'],
-      allowedForwardedHosts: ['localhost:3000'],
+      // 環境変数からAPP_URLを取得し、適切なホストを設定
+      allowedOrigins: process.env.NEXT_PUBLIC_APP_URL 
+        ? [new URL(process.env.NEXT_PUBLIC_APP_URL).host]
+        : ['localhost:3000'],
+      allowedForwardedHosts: process.env.NEXT_PUBLIC_APP_URL
+        ? [new URL(process.env.NEXT_PUBLIC_APP_URL).host]
+        : ['localhost:3000'],
     },
     // Partial Prerendering を有効化（Next.js 15+）
     // 注意：pprはCanaryバージョンでのみ利用可能です

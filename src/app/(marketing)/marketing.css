@@ -10,63 +10,11 @@
   min-height: 100vh;
 }
 
-/* Hero Section - Dark Background Override */
-.marketing-content > section:first-child {
-  background: black !important;
-  color: white !important;
-}
+/* Remove forced light/dark backgrounds to respect theme */
 
-/* Other sections remain with light background */
-.marketing-content > section:not(:first-child):not(:last-child) {
-  background: white !important;
-  color: #111827 !important;
-}
+/* Remove forced theme overrides */
 
-/* ルートレイアウトのダークテーマ要素を隠す */
-.marketing-layout ~ div[class*="fixed"] {
-  display: none !important;
-}
-
-/* body要素の背景色を上書き */
-body:has(.marketing-layout) {
-  background: white !important;
-}
-
-/* ダークテーマのグラデーション背景を無効化 */
-body:has(.marketing-layout) {
-  background: white !important;
-}
-
-/* ThemeProviderのダークテーマを無効化 */
-.marketing-layout,
-.marketing-layout * {
-  --background: 255 255 255 !important;
-  --foreground: 17 24 39 !important;
-  --card: 255 255 255 !important;
-  --card-foreground: 17 24 39 !important;
-  --popover: 255 255 255 !important;
-  --popover-foreground: 17 24 39 !important;
-  --primary: 59 130 246 !important;
-  --primary-foreground: 255 255 255 !important;
-  --secondary: 243 244 246 !important;
-  --secondary-foreground: 17 24 39 !important;
-  --muted: 243 244 246 !important;
-  --muted-foreground: 107 114 128 !important;
-  --accent: 243 244 246 !important;
-  --accent-foreground: 17 24 39 !important;
-  --destructive: 239 68 68 !important;
-  --destructive-foreground: 255 255 255 !important;
-  --border: 229 231 235 !important;
-  --input: 229 231 235 !important;
-  --ring: 59 130 246 !important;
-}
-
-/* Clerk要素のスタイルも調整 */
-.marketing-layout .cl-rootBox,
-.marketing-layout .cl-card {
-  background: white !important;
-  color: #111827 !important;
-}
+/* Remove forced CSS variable overrides to respect theme */
 
 /* Add perspective for 3D effects */
 .perspective-1000 {

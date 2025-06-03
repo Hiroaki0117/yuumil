@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
-    url: 'https://yuumil.com',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
     title: 'ユーミル | YouTube動画のトレンドを発見',
     description: 'ジャンル・キーワード別にYouTube動画の新着・トレンドランキングを表示',
     siteName: 'ユーミル',

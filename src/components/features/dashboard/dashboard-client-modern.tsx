@@ -130,7 +130,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
       <div className="text-center py-16 animate-fade-in-up">
         <div className="relative inline-block">
           <div className="glass-morphism rounded-3xl p-12 neon-border backdrop-blur-xl">
-            <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center animate-enhanced-pulse">
+            <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-neon-purple to-neon-blue rounded-full flex items-center justify-center animate-enhanced-pulse">
               <Settings className="w-12 h-12 text-white" />
             </div>
             <h3 className="text-2xl font-bold mb-4 holographic">設定が必要です</h3>
@@ -147,9 +147,9 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
     <div className="space-y-12 relative">
       {/* 背景エフェクト */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-cyan-500/5"></div>
-        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--color-neon-purple)/0.05)] via-transparent to-[hsl(var(--color-neon-blue)/0.05)]"></div>
+        <div className="absolute top-20 left-20 w-96 h-96 bg-[hsl(var(--color-neon-purple)/0.1)] rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[hsl(var(--color-neon-blue)/0.1)] rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
 
       {/* ヘッダーセクション */}
@@ -159,20 +159,20 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
             あなた専用の
           </span>
           <br />
-          <span className="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">
+          <span className="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-cyber-green">
             トレンドフィード
           </span>
         </h1>
-        <div className="w-32 h-1 bg-gradient-to-r from-purple-500 via-cyan-500 to-emerald-500 mx-auto rounded-full animate-enhanced-pulse"></div>
+        <div className="w-32 h-1 bg-gradient-to-r from-neon-purple via-neon-blue to-cyber-green mx-auto rounded-full animate-enhanced-pulse"></div>
       </div>
 
       {/* 統計ダッシュボード */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         {[
-          { label: "総動画数", value: stats.totalVideos, icon: Play, color: "from-purple-500 to-pink-500" },
-          { label: "総視聴回数", value: stats.totalViews, icon: Eye, color: "from-cyan-500 to-blue-500" },
-          { label: "平均視聴回数", value: stats.avgViews, icon: BarChart3, color: "from-emerald-500 to-green-500" },
-          { label: "トレンド動画", value: stats.trending, icon: TrendingUp, color: "from-orange-500 to-red-500" }
+          { label: "総動画数", value: stats.totalVideos, icon: Play, color: "from-neon-purple to-neon-pink" },
+          { label: "総視聴回数", value: stats.totalViews, icon: Eye, color: "from-neon-blue to-[hsl(var(--color-neon-blue))]" },
+          { label: "平均視聴回数", value: stats.avgViews, icon: BarChart3, color: "from-cyber-green to-[hsl(var(--color-cyber-green))]" },
+          { label: "トレンド動画", value: stats.trending, icon: TrendingUp, color: "from-[hsl(var(--color-electric-yellow))] to-[hsl(var(--color-neon-pink))]" }
         ].map((stat, index) => (
           <div
             key={stat.label}
@@ -180,12 +180,12 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
-            <stat.icon className="w-8 h-8 mb-3 text-white/80" />
+            <stat.icon className="w-8 h-8 mb-3 text-foreground/80" />
             <p className="text-3xl font-bold mb-1">
               {stat.value.toLocaleString('ja-JP')}
             </p>
             <p className="text-sm text-muted-foreground">{stat.label}</p>
-            <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-gradient-to-br from-white/10 to-transparent animate-enhanced-pulse"></div>
+            <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-gradient-to-br from-card/10 to-transparent animate-enhanced-pulse"></div>
           </div>
         ))}
       </div>
@@ -203,9 +203,9 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
             </button>
             
             <div className="flex items-center gap-4">
-              <Sparkles className="w-6 h-6 text-purple-400" />
+              <Sparkles className="w-6 h-6 text-neon-purple" />
               <h2 className="text-2xl font-bold">ジャンル・キーワード</h2>
-              <Sparkles className="w-6 h-6 text-cyan-400" />
+              <Sparkles className="w-6 h-6 text-neon-blue" />
             </div>
             
             <button
@@ -253,19 +253,19 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
               >
                 <div className="relative">
                   {isActive && (
-                    <div className="absolute -inset-2 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-2xl opacity-30 blur-lg animate-enhanced-pulse"></div>
+                    <div className="absolute -inset-2 bg-gradient-to-r from-neon-purple to-neon-blue rounded-2xl opacity-30 blur-lg animate-enhanced-pulse"></div>
                   )}
                   <span className={`
                     relative z-10 font-bold text-base
                     ${isActive 
-                      ? 'text-transparent bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text' 
+                      ? 'text-transparent bg-gradient-to-r from-neon-purple to-neon-blue bg-clip-text' 
                       : ''
                     }
                   `}>
                     {pref.label}
                   </span>
                   {isActive && (
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full pulse-neon"></div>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-neon-blue to-cyber-green rounded-full pulse-neon"></div>
                   )}
                 </div>
               </button>
@@ -277,9 +277,9 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
       {/* 期間選択セクション */}
       <div className="space-y-6">
         <div className="flex items-center justify-center gap-4">
-          <Sparkles className="w-6 h-6 text-purple-400" />
+          <Sparkles className="w-6 h-6 text-neon-purple" />
           <h2 className="text-2xl font-bold">トレンド期間</h2>
-          <Sparkles className="w-6 h-6 text-cyan-400" />
+          <Sparkles className="w-6 h-6 text-neon-blue" />
         </div>
         
         <ToggleGroup 
@@ -289,9 +289,9 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
           className="flex justify-center gap-4"
         >
           {[
-            { value: "trend24h", label: "24時間", icon: Clock, gradient: "from-orange-500 to-red-500" },
-            { value: "trend7d", label: "7日間", icon: Calendar, gradient: "from-blue-500 to-purple-500" },
-            { value: "trend30d", label: "30日間", icon: TrendingUp, gradient: "from-green-500 to-emerald-500" }
+            { value: "trend24h", label: "24時間", icon: Clock, gradient: "from-[hsl(var(--color-electric-yellow))] to-[hsl(var(--color-neon-pink))]" },
+            { value: "trend7d", label: "7日間", icon: Calendar, gradient: "from-neon-blue to-neon-purple" },
+            { value: "trend30d", label: "30日間", icon: TrendingUp, gradient: "from-cyber-green to-[hsl(var(--color-cyber-green))]" }
           ].map((option, index) => (
             <ToggleGroupItem
               key={option.value}
@@ -311,12 +311,12 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
               `} />
               <div className="relative z-10 flex items-center gap-3">
                 <option.icon className="w-5 h-5" />
-                <span className="font-bold text-lg group-data-[state=on]:text-transparent group-data-[state=on]:bg-gradient-to-r group-data-[state=on]:from-purple-400 group-data-[state=on]:to-cyan-400 group-data-[state=on]:bg-clip-text">
+                <span className="font-bold text-lg group-data-[state=on]:text-transparent group-data-[state=on]:bg-gradient-to-r group-data-[state=on]:from-neon-purple group-data-[state=on]:to-neon-blue group-data-[state=on]:bg-clip-text">
                   {option.label}
                 </span>
               </div>
               {period === option.value && (
-                <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full pulse-neon"></div>
+                <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-neon-blue to-cyber-green rounded-full pulse-neon"></div>
               )}
             </ToggleGroupItem>
           ))}
@@ -339,7 +339,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
         {items.length === 0 && !isLoadingMore ? (
           <div className="text-center py-20 animate-fade-in-up">
             <div className="glass-morphism rounded-3xl p-12 max-w-md mx-auto backdrop-blur-xl">
-              <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full flex items-center justify-center animate-float">
+              <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-neon-blue to-cyber-green rounded-full flex items-center justify-center animate-float">
                 <Search className="w-12 h-12 text-white" />
               </div>
               <p className="text-xl text-muted-foreground mb-2">動画が見つかりませんでした</p>
@@ -370,11 +370,11 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
                 style={{ animationDelay: `${i * 100}ms` }}
               >
                 <div className="flex gap-6">
-                  <Skeleton className="h-32 w-48 rounded-xl bg-gradient-to-r from-purple-500/20 to-cyan-500/20" />
+                  <Skeleton className="h-32 w-48 rounded-xl bg-gradient-to-r from-[hsl(var(--color-neon-purple)/0.2)] to-[hsl(var(--color-neon-blue)/0.2)]" />
                   <div className="space-y-3 flex-1">
-                    <Skeleton className="h-5 w-3/4 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20" />
-                    <Skeleton className="h-5 w-1/2 bg-gradient-to-r from-emerald-500/20 to-purple-500/20" />
-                    <Skeleton className="h-4 w-1/4 bg-gradient-to-r from-purple-500/20 to-cyan-500/20" />
+                    <Skeleton className="h-5 w-3/4 bg-gradient-to-r from-[hsl(var(--color-neon-blue)/0.2)] to-[hsl(var(--color-cyber-green)/0.2)]" />
+                    <Skeleton className="h-5 w-1/2 bg-gradient-to-r from-[hsl(var(--color-cyber-green)/0.2)] to-[hsl(var(--color-neon-purple)/0.2)]" />
+                    <Skeleton className="h-4 w-1/4 bg-gradient-to-r from-[hsl(var(--color-neon-purple)/0.2)] to-[hsl(var(--color-neon-blue)/0.2)]" />
                   </div>
                 </div>
               </div>

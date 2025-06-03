@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { auth } from '@clerk/nextjs/server';
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { Suspense } from 'react';
+import { MobileMenu } from './mobile-menu';
 
 export default async function MarketingHeader() {
   const { userId } = await auth();
@@ -16,7 +17,7 @@ export default async function MarketingHeader() {
           ユーミル
         </Link>
 
-        <nav className="hidden md:flex gap-8 text-sm font-medium">
+        <nav className="hidden lg:flex gap-8 text-sm font-medium">
           <Link 
             href="/dashboard" 
             className="relative px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors duration-300"
@@ -38,16 +39,21 @@ export default async function MarketingHeader() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <SignedOut>
-            <SignInButton mode="modal">
-              <button className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                ログイン
-              </button>
-            </SignInButton>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <div className="hidden lg:flex items-center gap-4">
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                  ログイン
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
+          
+          {/* Mobile Menu */}
+          <MobileMenu />
         </div>
       </div>
     </header>
@@ -61,4 +67,4 @@ function HeaderSkeleton() {
       <div className="h-8 w-16 bg-gray-200 animate-pulse rounded-lg" />
     </div>
   );
-} 
+}
