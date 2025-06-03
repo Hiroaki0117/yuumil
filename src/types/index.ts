@@ -16,7 +16,7 @@ export type {
 export type {
   GenreRow,
   KeywordRow,
-  PrefDetailRow,
+  TagDetailRow,
   RankRow,
   PerfType,
   PeriodType,

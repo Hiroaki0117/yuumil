@@ -1,9 +1,19 @@
 import { supabase } from "@/lib/database/supabaseClient";
-import { PerfType } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export const runtime = 'edge';
+
+// 動画データの型定義
+interface VideoData {
+  id: string;
+  youtube_id: string;
+  title: string;
+  thumbnail_url: string;
+  channel_title: string;
+  published_at: string;
+  total_views: number;
+}
 
 export async function GET(req: Request) {
     const { userId } = await auth();
@@ -69,7 +79,7 @@ export async function GET(req: Request) {
         
         // 既存のフォーマットに合わせてレスポンスを返す
         return NextResponse.json({ 
-            data: videos.map((video: any) => ({
+            data: videos.map((video: VideoData) => ({
                 id: video.id,
                 youtube_id: video.youtube_id,
                 title: video.title,

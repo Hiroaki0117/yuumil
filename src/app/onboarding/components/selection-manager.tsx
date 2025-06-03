@@ -103,7 +103,9 @@ export default function SelectionManager({
                   </span>
                   
                   {/* テキスト */}
-                  <span className="font-medium">{item.value}</span>
+                  <span className="font-medium">
+                    {item.type === 'genre' ? item.name : item.value}
+                  </span>
                   
                   {/* 削除ボタン */}
                   <motion.button

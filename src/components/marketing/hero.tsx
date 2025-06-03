@@ -19,16 +19,18 @@ export default function Hero() {
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      
       setMousePosition({
         x: (e.clientX - rect.left) / rect.width,
         y: (e.clientY - rect.top) / rect.height,
       });
     };
     
-    containerRef.current?.addEventListener("mousemove", handleMouseMove);
-    return () => containerRef.current?.removeEventListener("mousemove", handleMouseMove);
+    const currentContainer = containerRef.current;
+    currentContainer?.addEventListener("mousemove", handleMouseMove);
+    return () => currentContainer?.removeEventListener("mousemove", handleMouseMove);
   }, []);
   
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function Hero() {
       setCurrentWord((prev) => (prev + 1) % words.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [words.length]);
   
   return (
     <motion.section 

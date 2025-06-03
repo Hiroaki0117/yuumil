@@ -145,7 +145,7 @@ export default function SocialProof() {
               >
                 {/* Quote Mark */}
                 <div className="absolute -top-4 -left-4 text-6xl text-purple-200 font-serif">
-                  "
+                  &ldquo;
                 </div>
                 
                 {/* Content */}

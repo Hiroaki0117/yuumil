@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import { auth } from '@clerk/nextjs/server';
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import { Suspense } from 'react';
 import { MobileMenu } from './mobile-menu';
 
 export default async function MarketingHeader() {
-  const { userId } = await auth();
+  await auth();
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 h-16 bg-white/90 backdrop-blur-xl border-b border-gray-200">
@@ -57,14 +56,5 @@ export default async function MarketingHeader() {
         </div>
       </div>
     </header>
-  );
-}
-
-function HeaderSkeleton() {
-  return (
-    <div className="flex items-center gap-4">
-      <div className="h-8 w-8 bg-gray-200 animate-pulse rounded-full" />
-      <div className="h-8 w-16 bg-gray-200 animate-pulse rounded-lg" />
-    </div>
   );
 }
