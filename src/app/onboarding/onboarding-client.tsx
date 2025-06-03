@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Genre, SelectedItem } from '@/types'
+import { Genre, SelectedItem, SelectedGenre, SelectedKeyword } from '@/types'
 import { insertUserGenres, insertUserKeywords, upsertKeywords } from '@/dal/genre'
 import { APP_CONFIG } from '@/lib/constants'
 import WelcomeAnimation from './components/welcome-animation'
@@ -46,7 +46,13 @@ export default function OnboardingClient({ userId, genres }: OnboardingClientPro
       if (isSelected) {
         return prev.filter(item => !(item.type === 'genre' && item.id === genre.id))
       } else if (prev.length < MAX_TAGS) {
-        return [...prev, { type: 'genre', id: genre.id, value: genre.name }]
+        return [...prev, { 
+          type: 'genre', 
+          id: genre.id, 
+          name: genre.name,
+          description: genre.description,
+          category: genre.category
+        }]
       }
       
       // 上限に達した場合の振動エフェクト
@@ -64,7 +70,7 @@ export default function OnboardingClient({ userId, genres }: OnboardingClientPro
     setShowError(false)
     if (!keyword.trim() || selected.length >= MAX_TAGS) return
     
-    const exists = selected.some(item => item.type === 'keyword' && item.value === keyword)
+    const exists = selected.some(item => item.type === 'keyword' && (item as SelectedKeyword).value === keyword)
     if (!exists) {
       setSelected(prev => [...prev, { type: 'keyword', value: keyword }])
     }
@@ -73,7 +79,7 @@ export default function OnboardingClient({ userId, genres }: OnboardingClientPro
   const handleRemoveItem = useCallback((item: SelectedItem) => {
     setSelected(prev => 
       prev.filter(s => !(s.type === item.type && 
-        (s.type === 'genre' ? s.id === item.id : s.value === item.value)))
+        (s.type === 'genre' ? (s as SelectedGenre).id === (item as SelectedGenre).id : (s as SelectedKeyword).value === (item as SelectedKeyword).value)))
     )
   }, [])
 
@@ -92,16 +98,18 @@ export default function OnboardingClient({ userId, genres }: OnboardingClientPro
     setIsLoading(true)
     
     try {
-      const userGenres = selected.filter(s => s.type === 'genre').map(s => s.id!)
-      const userKeywords = selected.filter(s => s.type === 'keyword').map(s => s.value)
+      const selectedGenres = selected.filter(s => s.type === 'genre') as SelectedGenre[]
+      const selectedKeywords = selected.filter(s => s.type === 'keyword') as SelectedKeyword[]
 
-      if (userGenres.length > 0) {
-        await insertUserGenres(userId, userGenres)
+      if (selectedGenres.length > 0) {
+        await insertUserGenres(userId, selectedGenres)
       }
 
-      if (userKeywords.length > 0) {
-        await upsertKeywords(userKeywords)
-        await insertUserKeywords(userId, userKeywords)
+      if (selectedKeywords.length > 0) {
+        const keywordResult = await upsertKeywords(selectedKeywords)
+        if (keywordResult) {
+          await insertUserKeywords(userId, keywordResult)
+        }
       }
 
       setShowCompletion(true)
@@ -126,7 +134,7 @@ export default function OnboardingClient({ userId, genres }: OnboardingClientPro
 
   const selectedGenreIds = selected
     .filter(item => item.type === 'genre')
-    .map(item => item.id!)
+    .map(item => (item as SelectedGenre).id)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 overflow-hidden">
@@ -195,7 +203,7 @@ export default function OnboardingClient({ userId, genres }: OnboardingClientPro
                 <KeywordInputEnhanced
                   onAdd={handleKeywordAdd}
                   disabled={selected.length >= MAX_TAGS}
-                  existingKeywords={selected.filter(s => s.type === 'keyword').map(s => s.value)}
+                  existingKeywords={selected.filter(s => s.type === 'keyword').map(s => (s as SelectedKeyword).value)}
                 />
               </motion.div>
 

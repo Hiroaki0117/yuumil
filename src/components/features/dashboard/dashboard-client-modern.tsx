@@ -18,8 +18,7 @@ import {
   RefreshCw,
   Settings,
   ChevronLeft,
-  ChevronRight,
-  Zap
+  ChevronRight
 } from "lucide-react";
 
 interface DashboardClientModernProps {

@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { SignInButton } from "@clerk/nextjs";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Play, Sparkles, Zap, Globe, TrendingUp, Users, Star, Rocket, Activity } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Play, Sparkles, Zap, Globe, TrendingUp, Users, Star } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 
 export function HeroEnhanced() {

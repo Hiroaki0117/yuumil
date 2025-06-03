@@ -10,7 +10,6 @@ import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
 import { 
   Sparkles, 
   TrendingUp, 
-  Filter, 
   Search, 
   Clock, 
   Calendar, 
@@ -31,7 +30,6 @@ interface DashboardClientEnhancedProps {
 
 // 3Dカルーセル設定
 const CAROUSEL_ROTATION = 360;
-const ITEMS_VISIBLE = 5;
 
 export default function DashboardClientEnhanced({ initialPrefs }: DashboardClientEnhancedProps) {
   const [activePref, setActivePref] = useState("");
