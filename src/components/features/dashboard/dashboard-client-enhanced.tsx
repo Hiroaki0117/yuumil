@@ -237,7 +237,7 @@ export default function DashboardClientEnhanced({ initialPrefs }: DashboardClien
               あなた専用の
             </motion.span>
             <br />
-            <span className="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">
+            <span className="text-3xl text-white font-extrabold">
               トレンドフィード
             </span>
           </h1>
@@ -369,8 +369,8 @@ export default function DashboardClientEnhanced({ initialPrefs }: DashboardClien
                         <span className={`
                           relative z-10 font-bold text-lg
                           ${isActive 
-                            ? 'text-transparent bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text' 
-                            : ''
+                            ? 'text-white font-extrabold' 
+                            : 'text-gray-300'
                           }
                         `}>
                           {pref.label}
@@ -457,7 +457,7 @@ export default function DashboardClientEnhanced({ initialPrefs }: DashboardClien
                 `} />
                 <div className="relative z-10 flex items-center gap-3">
                   <option.icon className="w-5 h-5" />
-                  <span className="font-bold text-lg group-data-[state=on]:text-transparent group-data-[state=on]:bg-gradient-to-r group-data-[state=on]:from-purple-400 group-data-[state=on]:to-cyan-400 group-data-[state=on]:bg-clip-text">
+                  <span className="font-bold text-lg text-white group-data-[state=on]:text-white group-data-[state=on]:font-extrabold">
                     {option.label}
                   </span>
                 </div>

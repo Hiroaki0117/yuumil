@@ -99,7 +99,7 @@ export function StatsShowcase() {
             実績
           </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-white font-extrabold">
               数字で見る
             </span>
             Yuumil

@@ -45,12 +45,12 @@ const StatCard = memo(({
       role="article"
       aria-label={`${stat.label}: ${stat.value.toLocaleString('ja-JP')}`}
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
-      <stat.icon className="w-8 h-8 mb-3 text-foreground/80" />
-      <p className="text-3xl font-bold mb-1">
+      <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-5 group-hover:opacity-15 transition-opacity`}></div>
+      <stat.icon className="w-8 h-8 mb-3 text-white" />
+      <p className="text-3xl font-bold mb-1 text-white">
         {stat.value.toLocaleString('ja-JP')}
       </p>
-      <p className="text-sm text-muted-foreground">{stat.label}</p>
+      <p className="text-sm readable-over-glass">{stat.label}</p>
       <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-gradient-to-br from-card/10 to-transparent animate-enhanced-pulse"></div>
     </div>
   );
@@ -205,7 +205,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
             あなた専用の
           </span>
           <br />
-          <span className="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-cyber-green">
+          <span className="text-3xl text-white font-bold">
             トレンドフィード
           </span>
         </h1>
@@ -290,8 +290,8 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
                   <span className={`
                     relative z-10 font-bold text-base
                     ${isActive 
-                      ? 'text-transparent bg-gradient-to-r from-neon-purple to-neon-blue bg-clip-text' 
-                      : ''
+                      ? 'text-white font-extrabold' 
+                      : 'text-gray-300'
                     }
                   `}>
                     {pref.label}
@@ -331,7 +331,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
               aria-label={`${option.label}のトレンドを表示`}
               className={`
                 relative px-8 py-4 rounded-2xl glass-morphism transition-all duration-300
-                data-[state=on]:neon-border data-[state=on]:scale-105 data-[state=on]:cyber-glow
+                data-[state=on]:selected-state data-[state=on]:neon-border data-[state=on]:scale-105
                 hover:scale-105 hover:neon-glow group
                 animate-fade-in-up
               `}
@@ -343,7 +343,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
               `} />
               <div className="relative z-10 flex items-center gap-3">
                 <option.icon className="w-5 h-5" />
-                <span className="font-bold text-lg group-data-[state=on]:text-transparent group-data-[state=on]:bg-gradient-to-r group-data-[state=on]:from-neon-purple group-data-[state=on]:to-neon-blue group-data-[state=on]:bg-clip-text">
+                <span className={`font-bold text-lg ${period === option.value ? 'high-contrast-text' : 'text-white'}`}>
                   {option.label}
                 </span>
               </div>
