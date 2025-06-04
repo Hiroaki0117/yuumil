@@ -57,12 +57,12 @@ export default function VideoCard({ video }: Props) {
       {/* コンテンツ */}
       <div className="relative flex flex-col justify-between min-w-0 flex-1">
         {/* タイトル */}
-        <h3 className="text-sm font-semibold line-clamp-2 mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-cyan-400 group-hover:bg-clip-text transition-all duration-300">
+        <h3 className="text-sm font-semibold line-clamp-2 mb-2 text-white group-hover:text-white transition-all duration-300 font-bold">
           {video.title}
         </h3>
         
-        {/* メタデータ */}
-        <div className="text-xs text-muted-foreground flex items-center gap-2">
+        {/* メタデータ - コントラスト改善版 */}
+        <div className="text-xs readable-over-glass flex items-center gap-2">
           {/* 視聴回数 */}
           <span className="flex items-center gap-1">
             <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full"></div>

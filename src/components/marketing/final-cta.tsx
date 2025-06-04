@@ -64,7 +64,7 @@ export default function FinalCta() {
             <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
               素晴らしいコンテンツを
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
+              <span className="text-white font-extrabold">
                 発見する準備は？
               </span>
             </h2>

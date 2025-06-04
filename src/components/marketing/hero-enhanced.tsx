@@ -97,7 +97,7 @@ export function HeroEnhanced() {
           transition={{ delay: 0.2 }}
           className="text-6xl md:text-8xl font-bold text-center mb-6"
         >
-          <span className="bg-gradient-to-r from-neon-purple via-neon-pink to-neon-blue bg-clip-text text-transparent">
+          <span className="text-white font-extrabold">
             動画を
           </span>
           <motion.span
@@ -105,7 +105,7 @@ export function HeroEnhanced() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="inline-block bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent"
+            className="inline-block text-white font-extrabold"
           >
             {words[currentWord]}
           </motion.span>

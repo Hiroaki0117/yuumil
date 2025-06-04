@@ -209,11 +209,11 @@ export default function GenreSelector({
                 className={`
                   relative p-4 rounded-xl transition-all duration-300
                   ${isSelected 
-                    ? 'bg-gradient-to-br from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/30' 
-                    : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                    ? 'bg-gradient-to-br from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/30 selected-state' 
+                    : 'glass-morphism text-gray-200 hover:bg-white/20'
                   }
                   ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                  border ${isSelected ? 'border-purple-500' : 'border-gray-700/50'}
+                  border ${isSelected ? 'border-purple-400 border-2' : 'border-gray-600/50'}
                   ${index === focusedIndex ? 'ring-2 ring-purple-400 ring-offset-2 ring-offset-gray-900' : ''}
                 `}
               >
@@ -231,11 +231,13 @@ export default function GenreSelector({
                   )}
                 </AnimatePresence>
 
-                {/* コンテンツ */}
+                {/* コンテンツ - コントラスト改善版 */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-sm">{genre.name}</h4>
+                  <h4 className={`font-semibold text-sm ${isSelected ? 'high-contrast-text' : ''}`}>
+                    {genre.name}
+                  </h4>
                   {genre.description && (
-                    <p className="text-xs opacity-80 line-clamp-2">
+                    <p className={`text-xs line-clamp-2 ${isSelected ? 'high-contrast-text' : 'readable-over-glass'}`}>
                       {genre.description}
                     </p>
                   )}

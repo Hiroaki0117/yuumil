@@ -274,17 +274,17 @@
   }
   
   .glass-morphism {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    /* コントラスト改善のため影を追加 */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* 強化されたテキストシャドウでコントラスト改善 */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
   }
   
   .dark .glass-morphism {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
   }
 
   /* アクセシビリティ：ハイコントラストモード対応 */
@@ -297,6 +297,17 @@
     
     .neon-glow, .cyber-glow, .pulse-neon {
       box-shadow: none;
+    }
+    
+    .glass-morphism {
+      background: rgba(0, 0, 0, 0.95) !important;
+      color: white !important;
+    }
+    
+    .selected-state {
+      background: white !important;
+      color: black !important;
+      border: 3px solid black !important;
       border: 2px solid currentColor;
     }
     
@@ -380,7 +391,7 @@
   50% { opacity: 0.8; transform: scale(1.2); }
 }
 
-/* ホログラフィック効果 */
+/* ホログラフィック効果 - コントラスト改善版 */
 .holographic {
   background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b);
   background-size: 400% 400%;
@@ -388,6 +399,20 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 700;
+  /* フォールバック用テキストシャドウ */
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+/* ハイコントラストモード対応 */
+@media (prefers-contrast: high) {
+  .holographic {
+    background: currentColor;
+    -webkit-text-fill-color: currentColor;
+    animation: none;
+    text-shadow: none;
+    font-weight: 800;
+  }
 }
 
 @keyframes holographic {
@@ -404,7 +429,10 @@
 }
 
 .btn-secondary {
-  @apply glass-morphism text-foreground hover:bg-white/20 hover:scale-105 transition-all duration-300;
+  @apply glass-morphism text-foreground hover:bg-white/30 hover:scale-105 transition-all duration-300;
+  /* 選択状態でのコントラスト改善 */
+  color: white;
+  font-weight: 600;
 }
 
 /* カスタムスクロールバー */
@@ -424,4 +452,37 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #7C3AED, #0891B2);
+}
+
+/* コントラスト改善用ユーティリティクラス */
+.high-contrast-text {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+  font-weight: 600 !important;
+}
+
+.selected-state {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: white !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9) !important;
+}
+
+.readable-over-glass {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+}
+
+/* ガラスモーフィズム上でのテキスト改善 */
+.glass-morphism .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.glass-morphism .opacity-80 {
+  opacity: 1 !important;
+  color: rgba(255, 255, 255, 0.95) !important;
 }
