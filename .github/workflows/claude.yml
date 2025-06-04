@@ -33,7 +33,7 @@ jobs:
 
             - name: Run Claude Code
               id: claude
-              uses: Hiroaki0117/claude-code-action@main
+              uses: Hiroaki0117/claude-code-action@beta
               with:
                   use_oauth: 'true'
                   claude_access_token: ${{ secrets.CLAUDE_ACCESS_TOKEN }}
