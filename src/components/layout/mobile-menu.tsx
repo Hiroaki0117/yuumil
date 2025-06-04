@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu, Sparkles, TrendingUp, Users, Star, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -16,6 +16,9 @@ const navigationItems = [
 
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -27,6 +30,41 @@ export function MobileMenu() {
     return () => {
       document.body.style.overflow = "unset";
     };
+  }, [isOpen]);
+
+  // フォーカストラップとESCキー対応
+  useEffect(() => {
+    if (!isOpen || !menuRef.current) return;
+
+    const menu = menuRef.current;
+    const focusableElements = menu.querySelectorAll(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    // 初期フォーカス
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+        openButtonRef.current?.focus();
+      }
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    menu.addEventListener('keydown', handleKeyDown);
+    return () => menu.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
   const menuVariants = {
@@ -69,9 +107,12 @@ export function MobileMenu() {
     <>
       {/* Hamburger Button */}
       <button
+        ref={openButtonRef}
         onClick={() => setIsOpen(true)}
-        className="lg:hidden p-2 rounded-lg glass-morphism hover:bg-card/20 transition-colors"
+        className="lg:hidden p-2 rounded-lg glass-morphism hover:bg-card/20 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
         aria-label="メニューを開く"
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu"
       >
         <Menu className="w-6 h-6" />
       </button>
@@ -90,11 +131,16 @@ export function MobileMenu() {
 
             {/* Menu Panel */}
             <motion.div
+              ref={menuRef}
+              id="mobile-menu"
               variants={menuVariants}
               initial="closed"
               animate="open"
               exit="closed"
               className="fixed top-0 right-0 h-full w-full max-w-sm bg-background border-l border-border z-50 lg:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="モバイルナビゲーションメニュー"
             >
               <div className="relative h-full flex flex-col">
                 {/* Background Effects */}
@@ -114,8 +160,9 @@ export function MobileMenu() {
                     </span>
                   </div>
                   <button
+                    ref={closeButtonRef}
                     onClick={() => setIsOpen(false)}
-                    className="p-2 rounded-lg glass-morphism hover:bg-card/20 transition-colors"
+                    className="p-2 rounded-lg glass-morphism hover:bg-card/20 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
                     aria-label="メニューを閉じる"
                   >
                     <X className="w-6 h-6" />
@@ -136,7 +183,7 @@ export function MobileMenu() {
                         <Link
                           href={item.href}
                           onClick={() => setIsOpen(false)}
-                          className="flex items-center gap-4 p-4 rounded-xl glass-morphism hover:bg-card/20 transition-all duration-300 group"
+                          className="flex items-center gap-4 p-4 rounded-xl glass-morphism hover:bg-card/20 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-primary/50"
                         >
                           <div className="w-10 h-10 bg-gradient-to-r from-neon-purple/20 to-neon-blue/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                             <item.icon className="w-5 h-5 text-neon-purple" />

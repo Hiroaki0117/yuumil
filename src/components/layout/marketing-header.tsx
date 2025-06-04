@@ -1,7 +1,23 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { auth } from '@clerk/nextjs/server';
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import { MobileMenu } from './mobile-menu';
+
+// モバイルメニューの動的インポート
+const MobileMenu = dynamic(
+  () => import('./mobile-menu').then(mod => ({ default: mod.MobileMenu })),
+  {
+    loading: () => (
+      <button className="lg:hidden p-2 rounded-lg">
+        <div className="w-6 h-6 flex flex-col justify-center space-y-1">
+          <div className="w-6 h-0.5 bg-current"></div>
+          <div className="w-6 h-0.5 bg-current"></div>
+          <div className="w-6 h-0.5 bg-current"></div>
+        </div>
+      </button>
+    )
+  }
+);
 
 export default async function MarketingHeader() {
   await auth();

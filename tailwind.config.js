@@ -1,3 +1,5 @@
+const { spacing, borderRadius, fontSize, colors, typography, animation } = require('./src/lib/design-tokens');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
@@ -8,6 +10,23 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // デザイントークンからスペーシングを統合
+      spacing,
+      
+      // フォントサイズの統合
+      fontSize: {
+        ...fontSize,
+        xs: [fontSize.xs, { lineHeight: '1.4' }],
+        sm: [fontSize.sm, { lineHeight: '1.5' }],
+        base: [fontSize.base, { lineHeight: '1.6' }],
+        lg: [fontSize.lg, { lineHeight: '1.6' }],
+        xl: [fontSize.xl, { lineHeight: '1.5' }],
+        '2xl': [fontSize['2xl'], { lineHeight: '1.4' }],
+        '3xl': [fontSize['3xl'], { lineHeight: '1.3' }],
+        '4xl': [fontSize['4xl'], { lineHeight: '1.2' }],
+        '5xl': [fontSize['5xl'], { lineHeight: '1.1' }],
+        '6xl': [fontSize['6xl'], { lineHeight: '1.0' }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -42,22 +61,25 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // 近未来的なカラー
-        neon: {
-          blue: "#00D4FF",
-          purple: "#8B5CF6",
-          pink: "#F472B6",
-          green: "#10B981",
-          yellow: "#FDE047",
-        },
+        // デザイントークンからネオンカラーを統合
+        ...colors.neon,
+        'neon-blue': colors.neon.blue[500],
+        'neon-purple': colors.neon.purple[500],
+        'neon-pink': colors.neon.pink[500],
+        'cyber-green': colors.neon.green[500],
+        'electric-yellow': colors.neon.yellow[400],
       },
+      // デザイントークンからボーダー半径を統合
       borderRadius: {
+        ...borderRadius,
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      // デザイントークンからフォントファミリーを統合
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        ...typography.fontFamily,
+        sans: ["var(--font-inter)", ...typography.fontFamily.sans],
         orbitron: ["var(--font-orbitron)", "monospace"],
       },
       keyframes: {
@@ -88,6 +110,7 @@ module.exports = {
           "50%": { backgroundPosition: "100% 50%" },
         },
       },
+      // デザイントークンからアニメーション設定を統合
       animation: {
         float: "float 6s ease-in-out infinite",
         "pulse-neon": "pulse-neon 2s ease-in-out infinite alternate",
@@ -95,6 +118,9 @@ module.exports = {
         "star-twinkle": "star-twinkle 4s ease-in-out infinite",
         holographic: "holographic 4s ease infinite",
       },
+      // アニメーション継続時間とイージング
+      transitionDuration: animation.duration,
+      transitionTimingFunction: animation.easing,
       backdropBlur: {
         xs: "2px",
       },
