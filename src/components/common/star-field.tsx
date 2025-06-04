@@ -31,7 +31,7 @@ export default function StarField() {
       {stars.map((star) => (
         <div
           key={star.id}
-          className="absolute w-1 h-1 bg-white rounded-full star-twinkle"
+          className="absolute w-1 h-1 bg-white rounded-full star-twinkle pointer-events-none"
           style={{
             left: `${star.left}%`,
             top: `${star.top}%`,
