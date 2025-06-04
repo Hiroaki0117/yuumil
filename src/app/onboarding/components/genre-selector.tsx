@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Genre } from '@/types'
 import { Music, Check, Search, Filter } from 'lucide-react'
@@ -22,6 +22,9 @@ export default function GenreSelector({
 }: GenreSelectorProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [focusedIndex, setFocusedIndex] = useState(0)
+  const gridRef = useRef<HTMLDivElement>(null)
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   // カテゴリの抽出
   const categories = useMemo(() => {
@@ -46,6 +49,76 @@ export default function GenreSelector({
 
     return filtered
   }, [genres, searchTerm, selectedCategory])
+
+  // キーボードナビゲーション
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const totalItems = filteredGenres.length
+      if (totalItems === 0) return
+
+      let newIndex = focusedIndex
+      const columnsCount = window.innerWidth < 640 ? 2 : 
+                          window.innerWidth < 768 ? 3 : 
+                          window.innerWidth < 1024 ? 4 : 5
+
+      switch (e.key) {
+        case 'ArrowRight':
+          e.preventDefault()
+          newIndex = (focusedIndex + 1) % totalItems
+          break
+        case 'ArrowLeft':
+          e.preventDefault()
+          newIndex = (focusedIndex - 1 + totalItems) % totalItems
+          break
+        case 'ArrowDown':
+          e.preventDefault()
+          newIndex = Math.min(focusedIndex + columnsCount, totalItems - 1)
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          newIndex = Math.max(focusedIndex - columnsCount, 0)
+          break
+        case 'Enter':
+        case ' ':
+          e.preventDefault()
+          const genre = filteredGenres[focusedIndex]
+          if (genre && !disabled) {
+            onToggle(genre)
+          }
+          break
+        case 'Home':
+          e.preventDefault()
+          newIndex = 0
+          break
+        case 'End':
+          e.preventDefault()
+          newIndex = totalItems - 1
+          break
+        default:
+          return
+      }
+
+      setFocusedIndex(newIndex)
+      buttonRefs.current[newIndex]?.focus()
+    }
+
+    const gridElement = gridRef.current
+    if (gridElement) {
+      gridElement.addEventListener('keydown', handleKeyDown)
+    }
+
+    return () => {
+      if (gridElement) {
+        gridElement.removeEventListener('keydown', handleKeyDown)
+      }
+    }
+  }, [focusedIndex, filteredGenres, disabled, onToggle])
+
+  // フィルタリング時にフォーカスインデックスをリセット
+  useEffect(() => {
+    setFocusedIndex(0)
+    buttonRefs.current = buttonRefs.current.slice(0, filteredGenres.length)
+  }, [filteredGenres.length])
 
   return (
     <div className="space-y-6">
@@ -98,7 +171,10 @@ export default function GenreSelector({
       {/* ジャンルグリッド */}
       <motion.div 
         layout
+        ref={gridRef}
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+        role="grid"
+        aria-label="ジャンル選択グリッド"
       >
         <AnimatePresence mode="popLayout">
           {filteredGenres.map((genre, index) => {
@@ -108,6 +184,9 @@ export default function GenreSelector({
             return (
               <motion.button
                 key={genre.id}
+                ref={el => {
+                  buttonRefs.current[index] = el
+                }}
                 layout
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -121,7 +200,12 @@ export default function GenreSelector({
                 whileHover={!isDisabled ? { scale: 1.05, y: -2 } : {}}
                 whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 onClick={() => !isDisabled && onToggle(genre)}
+                onFocus={() => setFocusedIndex(index)}
                 disabled={isDisabled}
+                tabIndex={index === focusedIndex ? 0 : -1}
+                role="gridcell"
+                aria-selected={isSelected}
+                aria-label={`${genre.name}${isSelected ? ' (選択済み)' : ''}`}
                 className={`
                   relative p-4 rounded-xl transition-all duration-300
                   ${isSelected 
@@ -130,6 +214,7 @@ export default function GenreSelector({
                   }
                   ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                   border ${isSelected ? 'border-purple-500' : 'border-gray-700/50'}
+                  ${index === focusedIndex ? 'ring-2 ring-purple-400 ring-offset-2 ring-offset-gray-900' : ''}
                 `}
               >
                 {/* 選択インジケーター */}
@@ -170,31 +255,43 @@ export default function GenreSelector({
                 <AnimatePresence>
                   {isSelected && (
                     <>
-                      {[...Array(5)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          className="absolute w-1 h-1 bg-purple-400 rounded-full"
-                          initial={{
-                            x: 0,
-                            y: 0,
-                            opacity: 1,
-                          }}
-                          animate={{
-                            x: (Math.random() - 0.5) * 100,
-                            y: (Math.random() - 0.5) * 100,
-                            opacity: 0,
-                          }}
-                          exit={{ opacity: 0 }}
-                          transition={{
-                            duration: 0.8,
-                            ease: "easeOut",
-                          }}
-                          style={{
-                            left: '50%',
-                            top: '50%',
-                          }}
-                        />
-                      ))}
+                      {[...Array(5)].map((_, i) => {
+                        // 固定値を使用してSSRとの一貫性を保つ
+                        const positions = [
+                          { x: 30, y: -40 },
+                          { x: -25, y: 35 },
+                          { x: 45, y: 20 },
+                          { x: -35, y: -30 },
+                          { x: 20, y: 40 }
+                        ];
+                        const position = positions[i] || { x: 0, y: 0 };
+                        
+                        return (
+                          <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 bg-purple-400 rounded-full"
+                            initial={{
+                              x: 0,
+                              y: 0,
+                              opacity: 1,
+                            }}
+                            animate={{
+                              x: position.x,
+                              y: position.y,
+                              opacity: 0,
+                            }}
+                            exit={{ opacity: 0 }}
+                            transition={{
+                              duration: 0.8,
+                              ease: "easeOut",
+                            }}
+                            style={{
+                              left: '50%',
+                              top: '50%',
+                            }}
+                          />
+                        );
+                      })}
                     </>
                   )}
                 </AnimatePresence>

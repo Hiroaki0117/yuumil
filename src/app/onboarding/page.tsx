@@ -1,8 +1,18 @@
+import dynamic from 'next/dynamic';
 import { auth } from '@clerk/nextjs/server';
 import { supabase } from '@/lib/database/supabaseClient';
-import OnboardingClient from './onboarding-client';
 import { getUser } from '@/dal/users';
 import { redirect } from 'next/navigation';
+import { ErrorBoundary, OnboardingErrorFallback } from '@/components/common/error-boundary';
+import { PageLoading } from '@/components/common/loading-states';
+
+// オンボーディングコンポーネントの動的インポート
+const OnboardingClient = dynamic(
+  () => import('./onboarding-client'),
+  {
+    loading: () => <PageLoading />,
+  }
+);
 
 export default async function OnboardingPage() {
   const { userId } = await auth();
@@ -17,6 +27,8 @@ export default async function OnboardingPage() {
                                          .order('category');
 
   return (
-    <OnboardingClient userId={id} genres={genres || []} />
+    <ErrorBoundary fallback={OnboardingErrorFallback}>
+      <OnboardingClient userId={id} genres={genres || []} />
+    </ErrorBoundary>
   );
 }

@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/common/theme-provider';
 import Header from '@/components/layout/header';
 import { StagewiseToolbar } from '@stagewise/toolbar-next';
 import StarField from '@/components/common/star-field';
+import SkipLinks from '@/components/common/skip-links';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -80,6 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem={false}
             disableTransitionOnChange
           >
+            {/* スキップリンク */}
+            <SkipLinks />
+            
             {/* 背景のパーティクル効果 */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-cyan-900/20"></div>
@@ -87,7 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             
             <Header />
-            <main className="relative min-h-screen pt-20 container mx-auto px-4 pb-8">
+            <main id="main-content" className="relative min-h-screen pt-20 container mx-auto px-4 pb-8">
               {children}
             </main>
 

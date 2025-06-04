@@ -1,9 +1,18 @@
 import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { auth } from '@clerk/nextjs/server';
 import { listUserTagsByClerkId } from '@/dal/users';
-import DashboardClientModern from '@/components/features/dashboard/dashboard-client-modern';
 import { Skeleton } from "@/components/ui/skeleton";
+import { ErrorBoundary, VideoFeedErrorFallback } from '@/components/common/error-boundary';
 import type { Metadata } from 'next';
+
+// ダッシュボードコンポーネントの動的インポート
+const DashboardClientModern = dynamic(
+  () => import('@/components/features/dashboard/dashboard-client-modern'),
+  {
+    loading: () => <DashboardSkeleton />,
+  }
+);
 
 export const metadata: Metadata = {
   title: 'ダッシュボード | ユーミル',
@@ -92,9 +101,11 @@ export default async function DashboardPage() {
       
       {/* メインコンテンツ */}
       <div className="relative z-10">
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardClientModern initialPrefs={tags} />
-        </Suspense>
+        <ErrorBoundary fallback={VideoFeedErrorFallback}>
+          <Suspense fallback={<DashboardSkeleton />}>
+            <DashboardClientModern initialPrefs={tags} />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
@@ -61,7 +62,29 @@ const socialLinks = [
   { icon: Github, href: "#", label: "GitHub" },
 ];
 
+interface Particle {
+  id: number;
+  left: number;
+  top: number;
+  duration: number;
+  delay: number;
+}
+
 export default function Footer() {
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    // クライアントサイドでのみパーティクルを生成
+    const generatedParticles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 3 + Math.random() * 2,
+      delay: Math.random() * 5,
+    }));
+    
+    setParticles(generatedParticles);
+  }, []);
   return (
     <footer className="relative bg-gradient-to-b from-background to-background text-foreground overflow-hidden">
       {/* Animated Background */}
@@ -69,22 +92,22 @@ export default function Footer() {
         <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--color-neon-purple)/0.2)] via-transparent to-[hsl(var(--color-neon-pink)/0.2)]" />
         
         {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
+        {particles.map((particle) => (
           <motion.div
-            key={i}
+            key={particle.id}
             className="absolute w-1 h-1 bg-[hsl(var(--color-neon-purple)/0.3)] rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
             }}
             animate={{
               y: [-20, -40, -20],
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: particle.duration,
               repeat: Infinity,
-              delay: Math.random() * 5,
+              delay: particle.delay,
             }}
           />
         ))}

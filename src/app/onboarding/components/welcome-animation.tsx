@@ -1,11 +1,35 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 
+interface BackgroundParticle {
+  id: number;
+  x: number;
+  left: number;
+  opacity: number;
+  duration: number;
+  delay: number;
+}
+
 export default function WelcomeAnimation() {
   const words = ['動画', '発見', '体験']
+  const [backgroundParticles, setBackgroundParticles] = useState<BackgroundParticle[]>([]);
+
+  useEffect(() => {
+    // クライアントサイドでのみパーティクルを生成
+    const generatedParticles = Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+      left: Math.random() * 100,
+      opacity: Math.random() * 0.5 + 0.5,
+      duration: Math.random() * 10 + 10,
+      delay: Math.random() * 5,
+    }));
+    
+    setBackgroundParticles(generatedParticles);
+  }, []);
   
   return (
     <motion.div
@@ -16,26 +40,26 @@ export default function WelcomeAnimation() {
     >
       {/* パーティクル背景 */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(50)].map((_, i) => (
+        {backgroundParticles.map((particle) => (
           <motion.div
-            key={i}
+            key={particle.id}
             className="absolute w-1 h-1 bg-purple-400 rounded-full"
             initial={{
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+              x: particle.x,
               y: (typeof window !== 'undefined' ? window.innerHeight : 1080) + 20,
             }}
             animate={{
               y: -20,
               transition: {
-                duration: Math.random() * 10 + 10,
+                duration: particle.duration,
                 repeat: Infinity,
                 ease: "linear",
-                delay: Math.random() * 5,
+                delay: particle.delay,
               },
             }}
             style={{
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.5 + 0.5,
+              left: `${particle.left}%`,
+              opacity: particle.opacity,
             }}
           />
         ))}

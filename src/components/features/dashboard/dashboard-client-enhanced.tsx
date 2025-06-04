@@ -24,6 +24,14 @@ import {
   Zap
 } from "lucide-react";
 
+interface BackgroundParticle {
+  id: number;
+  x: number;
+  y: number;
+  duration: number;
+  delay: number;
+}
+
 interface DashboardClientEnhancedProps {
   initialPrefs: Pref[];
 }
@@ -38,6 +46,7 @@ export default function DashboardClientEnhanced({ initialPrefs }: DashboardClien
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [carouselRotation, setCarouselRotation] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [backgroundParticles, setBackgroundParticles] = useState<BackgroundParticle[]>([]);
   
   // アニメーション用のモーション値
   const mouseX = useMotionValue(0);
@@ -70,6 +79,19 @@ export default function DashboardClientEnhanced({ initialPrefs }: DashboardClien
       pref.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [initialPrefs, searchQuery]);
+
+  // 背景パーティクルの生成
+  useEffect(() => {
+    const generatedParticles = Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+      y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+      duration: Math.random() * 10 + 10,
+      delay: Math.random() * 5,
+    }));
+    
+    setBackgroundParticles(generatedParticles);
+  }, []);
 
   // 初回自動選択とlocalStorageからの復元
   useEffect(() => {
@@ -173,22 +195,22 @@ export default function DashboardClientEnhanced({ initialPrefs }: DashboardClien
       {/* 背景パーティクル効果 */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-cyan-500/5"></div>
-        {[...Array(50)].map((_, i) => (
+        {backgroundParticles.map((particle) => (
           <motion.div
-            key={i}
+            key={particle.id}
             className="absolute w-1 h-1 bg-white/20 rounded-full"
             initial={{ 
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight
+              x: particle.x,
+              y: particle.y
             }}
             animate={{ 
               y: [null, -20, 20],
               opacity: [0.2, 0.8, 0.2]
             }}
             transition={{
-              duration: Math.random() * 10 + 10,
+              duration: particle.duration,
               repeat: Infinity,
-              delay: Math.random() * 5
+              delay: particle.delay
             }}
           />
         ))}

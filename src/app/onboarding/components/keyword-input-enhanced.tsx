@@ -100,7 +100,7 @@ export default function KeywordInputEnhanced({
       </div>
 
       {/* 入力フォーム */}
-      <form onSubmit={handleSubmit} className="relative">
+      <form onSubmit={handleSubmit} className="relative" role="search">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <Input
@@ -119,6 +119,10 @@ export default function KeywordInputEnhanced({
               transition-all duration-300
               ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
             `}
+            aria-label="キーワード入力"
+            aria-autocomplete="list"
+            aria-controls="keyword-suggestions"
+            aria-expanded={showSuggestions}
           />
           
           <Button
@@ -145,6 +149,8 @@ export default function KeywordInputEnhanced({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               className="absolute z-10 w-full mt-2 p-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl"
+              id="keyword-suggestions"
+              role="listbox"
             >
               <div className="text-xs text-gray-400 mb-2 px-2">おすすめ</div>
               {filteredSuggestions.map((suggestion, index) => (
@@ -164,6 +170,8 @@ export default function KeywordInputEnhanced({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
+                  role="option"
+                  aria-selected={selectedSuggestionIndex === index}
                 >
                   <span className="flex items-center gap-2">
                     <Hash className="w-3 h-3" />

@@ -1,10 +1,34 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle, Sparkles } from 'lucide-react'
 
+interface Particle {
+  id: number;
+  color: string;
+  x: number;
+  y: number;
+  duration: number;
+  delay: number;
+}
+
 export default function CompletionAnimation() {
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    // クライアントサイドでのみパーティクルを生成
+    const generatedParticles = Array.from({ length: 100 }, (_, i) => ({
+      id: i,
+      color: `hsl(${Math.random() * 60 + 260}, 100%, 70%)`,
+      x: (Math.random() - 0.5) * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+      y: (Math.random() - 0.5) * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+      duration: Math.random() * 2 + 1,
+      delay: Math.random() * 0.5,
+    }));
+    
+    setParticles(generatedParticles);
+  }, []);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -14,25 +38,25 @@ export default function CompletionAnimation() {
     >
       {/* 背景のパーティクル爆発 */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(100)].map((_, i) => (
+        {particles.map((particle) => (
           <motion.div
-            key={i}
+            key={particle.id}
             className="absolute w-2 h-2 rounded-full"
             style={{
-              background: `hsl(${Math.random() * 60 + 260}, 100%, 70%)`,
+              background: particle.color,
               left: '50%',
               top: '50%',
             }}
             initial={{ x: 0, y: 0, opacity: 1 }}
             animate={{
-              x: (Math.random() - 0.5) * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-              y: (Math.random() - 0.5) * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+              x: particle.x,
+              y: particle.y,
               opacity: 0,
             }}
             transition={{
-              duration: Math.random() * 2 + 1,
+              duration: particle.duration,
               ease: "easeOut",
-              delay: Math.random() * 0.5,
+              delay: particle.delay,
             }}
           />
         ))}

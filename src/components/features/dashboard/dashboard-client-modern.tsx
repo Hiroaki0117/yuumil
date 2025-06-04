@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo, memo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import VideoCard from "@/components/features/videos/video-card";
 import { useVideoFeed } from "@/lib/hooks/useVideoFeed";
@@ -25,6 +25,42 @@ interface DashboardClientModernProps {
   initialPrefs: Pref[];
 }
 
+// 統計カードのメモ化コンポーネント
+const StatCard = memo(({ 
+  stat, 
+  index 
+}: { 
+  stat: {
+    label: string;
+    value: number;
+    icon: React.ComponentType<{ className?: string }>;
+    color: string;
+  };
+  index: number;
+}) => {
+  return (
+    <div
+      className="glass-morphism rounded-2xl p-6 relative overflow-hidden group hover:scale-105 transition-transform duration-300 animate-fade-in-up"
+      style={{ animationDelay: `${index * 100}ms` }}
+      role="article"
+      aria-label={`${stat.label}: ${stat.value.toLocaleString('ja-JP')}`}
+    >
+      <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
+      <stat.icon className="w-8 h-8 mb-3 text-foreground/80" />
+      <p className="text-3xl font-bold mb-1">
+        {stat.value.toLocaleString('ja-JP')}
+      </p>
+      <p className="text-sm text-muted-foreground">{stat.label}</p>
+      <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-gradient-to-br from-card/10 to-transparent animate-enhanced-pulse"></div>
+    </div>
+  );
+});
+
+StatCard.displayName = 'StatCard';
+
+// ビデオカードのメモ化コンポーネント
+const MemoizedVideoCard = memo(VideoCard);
+
 export default function DashboardClientModern({ initialPrefs }: DashboardClientModernProps) {
   const [activePref, setActivePref] = useState("");
   const [period, setPeriod] = useState("trend24h");
@@ -35,7 +71,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
   const { items, setSize, isLoadingMore, mutate } = useVideoFeed(activePref, period);
   const sentinel = useRef<HTMLDivElement>(null);
 
-  // 統計情報の計算
+  // 統計情報の計算（メモ化）
   const stats = useMemo(() => {
     const totalViews = items.reduce((sum, video) => sum + (video.total_views || 0), 0);
     const avgViews = items.length > 0 ? Math.floor(totalViews / items.length) : 0;
@@ -48,6 +84,14 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
       trending
     };
   }, [items]);
+
+  // 統計データ配列のメモ化
+  const statsData = useMemo(() => [
+    { label: "総動画数", value: stats.totalVideos, icon: Play, color: "from-neon-purple to-neon-pink" },
+    { label: "総視聴回数", value: stats.totalViews, icon: Eye, color: "from-neon-blue to-[hsl(var(--color-neon-blue))]" },
+    { label: "平均視聴回数", value: stats.avgViews, icon: BarChart3, color: "from-cyber-green to-[hsl(var(--color-cyber-green))]" },
+    { label: "トレンド動画", value: stats.trending, icon: TrendingUp, color: "from-[hsl(var(--color-electric-yellow))] to-[hsl(var(--color-neon-pink))]" }
+  ], [stats]);
 
   // フィルタリングされたprefs
   const filteredPrefs = useMemo(() => {
@@ -89,40 +133,43 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
     }
   }, [period, mutate, activePref]);
 
-  // 無限スクロール
+  // IntersectionObserverのコールバックをメモ化
+  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
+    if (entries[0].isIntersecting && !isLoadingMore) {
+      setSize(prev => prev + 1);
+    }
+  }, [setSize, isLoadingMore]);
+
+  // 無限スクロール（メモ化）
   useEffect(() => {
     if (!sentinel.current) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !isLoadingMore) {
-          setSize(prev => prev + 1);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    io.observe(sentinel.current);
+    
+    const io = new IntersectionObserver(handleIntersection, { threshold: 0.1 });
+    const currentSentinel = sentinel.current;
+    
+    io.observe(currentSentinel);
     return () => io.disconnect();
-  }, [setSize, isLoadingMore]);
+  }, [handleIntersection]);
 
   // データリフレッシュ
   const handleRefresh = useCallback(() => {
     mutate();
   }, [mutate]);
 
-  // カルーセル風の選択
-  const handlePrevious = () => {
+  // カルーセル風の選択（メモ化）
+  const handlePrevious = useCallback(() => {
     const newIndex = (selectedIndex - 1 + filteredPrefs.length) % filteredPrefs.length;
     setSelectedIndex(newIndex);
     const pref = filteredPrefs[newIndex];
     setActivePref(`${pref.type}:${pref.id}`);
-  };
+  }, [selectedIndex, filteredPrefs]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     const newIndex = (selectedIndex + 1) % filteredPrefs.length;
     setSelectedIndex(newIndex);
     const pref = filteredPrefs[newIndex];
     setActivePref(`${pref.type}:${pref.id}`);
-  };
+  }, [selectedIndex, filteredPrefs]);
 
   if (!initialPrefs.length) {
     return (
@@ -166,31 +213,14 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
       </div>
 
       {/* 統計ダッシュボード */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-        {[
-          { label: "総動画数", value: stats.totalVideos, icon: Play, color: "from-neon-purple to-neon-pink" },
-          { label: "総視聴回数", value: stats.totalViews, icon: Eye, color: "from-neon-blue to-[hsl(var(--color-neon-blue))]" },
-          { label: "平均視聴回数", value: stats.avgViews, icon: BarChart3, color: "from-cyber-green to-[hsl(var(--color-cyber-green))]" },
-          { label: "トレンド動画", value: stats.trending, icon: TrendingUp, color: "from-[hsl(var(--color-electric-yellow))] to-[hsl(var(--color-neon-pink))]" }
-        ].map((stat, index) => (
-          <div
-            key={stat.label}
-            className="glass-morphism rounded-2xl p-6 relative overflow-hidden group hover:scale-105 transition-transform duration-300 animate-fade-in-up"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
-            <stat.icon className="w-8 h-8 mb-3 text-foreground/80" />
-            <p className="text-3xl font-bold mb-1">
-              {stat.value.toLocaleString('ja-JP')}
-            </p>
-            <p className="text-sm text-muted-foreground">{stat.label}</p>
-            <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-gradient-to-br from-card/10 to-transparent animate-enhanced-pulse"></div>
-          </div>
+      <div id="stats-dashboard" className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8" role="region" aria-label="統計情報" aria-live="polite">
+        {statsData.map((stat, index) => (
+          <StatCard key={stat.label} stat={stat} index={index} />
         ))}
       </div>
 
       {/* ジャンルセレクター */}
-      <div className="space-y-6">
+      <div id="genre-selector" className="space-y-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
             <button
@@ -225,12 +255,13 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 pr-4 py-2 glass-morphism rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 w-64"
+              aria-label="ジャンル・キーワードを検索"
             />
           </div>
         </div>
 
         {/* ジャンル・キーワードグリッド */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" role="group" aria-label="ジャンル・キーワード選択">
           {filteredPrefs.map((pref, index) => {
             const isActive = `${pref.type}:${pref.id}` === activePref;
             return (
@@ -249,6 +280,8 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
                   animate-fade-in-up
                 `}
                 style={{ animationDelay: `${index * 50}ms` }}
+                aria-pressed={isActive}
+                aria-label={`${pref.label}${isActive ? ' (選択中)' : ''}`}
               >
                 <div className="relative">
                   {isActive && (
@@ -295,6 +328,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
             <ToggleGroupItem
               key={option.value}
               value={option.value}
+              aria-label={`${option.label}のトレンドを表示`}
               className={`
                 relative px-8 py-4 rounded-2xl glass-morphism transition-all duration-300
                 data-[state=on]:neon-border data-[state=on]:scale-105 data-[state=on]:cyber-glow
@@ -302,7 +336,6 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
                 animate-fade-in-up
               `}
               style={{ animationDelay: `${index * 100}ms` }}
-              aria-label={`${option.label}のトレンドを表示`}
             >
               <div className={`
                 absolute inset-0 bg-gradient-to-r ${option.gradient} rounded-2xl opacity-0 
@@ -334,7 +367,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
       </div>
 
       {/* ビデオグリッド */}
-      <div className="space-y-8">
+      <div id="video-feed" className="space-y-8">
         {items.length === 0 && !isLoadingMore ? (
           <div className="text-center py-20 animate-fade-in-up">
             <div className="glass-morphism rounded-3xl p-12 max-w-md mx-auto backdrop-blur-xl">
@@ -353,7 +386,7 @@ export default function DashboardClientModern({ initialPrefs }: DashboardClientM
                 className="animate-fade-in-up hover:scale-[1.02] transition-transform duration-300"
                 style={{ animationDelay: `${Math.min(index * 50, 500)}ms` }}
               >
-                <VideoCard video={video} />
+                <MemoizedVideoCard video={video} />
               </div>
             ))}
           </div>
