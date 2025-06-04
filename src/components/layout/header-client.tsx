@@ -9,13 +9,13 @@ interface HeaderClientProps {
 
 export default function HeaderClient({ isAuthenticated }: HeaderClientProps) {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 relative z-[10001]">
       <ModeToggle />
       
       {!isAuthenticated ? (
         <SignedOut>
           <SignInButton>
-            <button className="px-3 py-1 rounded bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+            <button className="relative z-[10002] px-3 py-1 rounded bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
               Sign In
             </button>
           </SignInButton>
